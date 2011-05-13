@@ -39,7 +39,7 @@ public abstract class ChessBoard extends AbstractBoard<ChessBoard, ChessMovement
 	 * 
 	 * @return a new mini-chess board
 	 */
-	protected static final ChessBoard getMiniChessBoard() {
+	public static final ChessBoard getMiniChessBoard() {
 		final ChessBoard board = new ChessBoard() {
 			@Override
 			public final int getNumberOfColumns() {
@@ -60,9 +60,6 @@ public abstract class ChessBoard extends AbstractBoard<ChessBoard, ChessMovement
 
 		for (int col = 1; col <= board.getNumberOfColumns(); col++) {
 			board.setPieceAt(new Position(col, 2), new ChessPawn(board, ChessColor.WHITE));
-		}
-
-		for (int col = 1; col <= board.getNumberOfColumns(); col++) {
 			board.setPieceAt(new Position(col, 5), new ChessPawn(board, ChessColor.BLACK));
 		}
 
