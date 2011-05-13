@@ -44,7 +44,7 @@ public final class ChessMovement extends AbstractMovement<ChessBoard, ChessMovem
 
 	@Override
 	public final String toString() {
-		return String.format("%s%s%s%s", (getPiece() instanceof ChessPawn ? "" : getPiece().toString().toUpperCase()), getFrom().toString(),
-				(attackedPiece != null ? "x" : "-"), getTo().toString());
+		return (getPiece() instanceof ChessPawn ? "" : getPiece().toString().toUpperCase()) + getFrom().toString() + (attackedPiece != null ? "x" : "-")
+				+ getTo().toString();
 	}
 }

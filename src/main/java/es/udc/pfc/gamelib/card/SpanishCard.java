@@ -94,7 +94,7 @@ public class SpanishCard extends AbstractCard<SpanishCard.SpanishSuit> {
 			strRank = Integer.toString(getRank());
 		}
 
-		return String.format("%s de %s", strRank, getSuit());
+		return strRank + " de " + getSuit();
 	}
 
 }

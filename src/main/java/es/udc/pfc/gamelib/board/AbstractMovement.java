@@ -57,6 +57,6 @@ public abstract class AbstractMovement<B extends Board<B, M, P>, M extends Movem
 
 	@Override
 	public String toString() {
-		return String.format("%s %s", getFrom().toString(), getTo().toString());
+		return getFrom().toString() + " " + getTo().toString();
 	}
 }

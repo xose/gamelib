@@ -102,7 +102,7 @@ public final class Position {
 
 	@Override
 	public final String toString() {
-		return String.format("%c%d", 'a' + getColumn() - 1, getRow());
+		return Character.toString((char) ('a' + getColumn() - 1)) + getRow();
 	}
 
 }

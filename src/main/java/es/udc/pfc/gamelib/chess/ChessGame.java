@@ -145,6 +145,6 @@ public final class ChessGame extends AbstractGame<ChessGame, ChessPlayer> {
 
 	@Override
 	public String toString() {
-		return String.format("Chess Game");
+		return "Chess Game";
 	}
 }

@@ -55,7 +55,6 @@ public final class ChessPlayer extends AbstractPlayer<ChessGame, ChessPlayer> {
 
 	@Override
 	public final String toString() {
-		return String.format("Chess Player: %s (%s)", getName(), color.toString());
+		return "Chess Player: " + getName() + " (" + color.toString() + ")";
 	}
-
 }

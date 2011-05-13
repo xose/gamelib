@@ -88,7 +88,7 @@ public class FrenchCard extends AbstractCard<FrenchCard.FrenchSuit> {
 			strRank = Integer.toString(getRank());
 		}
 
-		return String.format("%s of %s", strRank, getSuit());
+		return strRank + " of " + getSuit();
 	}
 
 }
