@@ -91,18 +91,35 @@ public abstract class AbstractBoard<B extends Board<B, M, P>, M extends Movement
 
 	@Override
 	public final String toString() {
-		final StringBuilder sb = new StringBuilder();
+		final StringBuilder fen = new StringBuilder();
 
 		for (int row = getNumberOfRows(); row >= 1; row--) {
+			int empty = 0;
+
 			for (int col = 1; col <= getNumberOfColumns(); col++) {
-				final P p = getPieceAt(new Position(col, row));
-				sb.append((p == null ? " " : p.toString()));
+				final P piece = getPieceAt(new Position(col, row));
+				if (piece == null) {
+					empty++;
+					continue;
+				}
+
+				if (empty > 0) {
+					fen.append(empty);
+					empty = 0;
+				}
+
+				fen.append(piece.toString());
 			}
+
+			if (empty > 0) {
+				fen.append(empty);
+			}
+
 			if (row > 1) {
-				sb.append('\n');
+				fen.append('/');
 			}
 		}
 
-		return sb.toString();
+		return fen.toString();
 	}
 }

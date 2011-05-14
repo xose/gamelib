@@ -30,19 +30,16 @@ public class FrenchCardTest {
 		assertEquals(5, c.getRank());
 	}
 
-	@SuppressWarnings("unused")
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorRange() {
 		new FrenchCard(FrenchCard.FrenchSuit.Clubs, 14);
 	}
 
-	@SuppressWarnings("unused")
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorNegative() {
 		new FrenchCard(FrenchCard.FrenchSuit.Hearts, -1);
 	}
 
-	@SuppressWarnings("unused")
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorNull() {
 		new FrenchCard(null, 5);

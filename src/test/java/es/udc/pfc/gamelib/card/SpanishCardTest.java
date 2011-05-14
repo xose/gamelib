@@ -30,19 +30,16 @@ public class SpanishCardTest {
 		assertEquals(5, c.getRank());
 	}
 
-	@SuppressWarnings("unused")
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorRange() {
 		new SpanishCard(SpanishCard.SpanishSuit.Oros, 14);
 	}
 
-	@SuppressWarnings("unused")
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorNegative() {
 		new SpanishCard(SpanishCard.SpanishSuit.Espadas, -1);
 	}
 
-	@SuppressWarnings("unused")
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorNull() {
 		new SpanishCard(null, 5);

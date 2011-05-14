@@ -73,4 +73,12 @@ public class ChessBoardTest {
 		assertEquals(6, board.getPossibleMoves(ChessColor.BLACK).size());
 	}
 
+	@Test
+	public void testToString() {
+		assertEquals("rbkqn/ppppp/5/5/PPPPP/NQKBR", board.toString());
+
+		board.movePiece(new Position(3, 2), new Position(3, 3));
+		assertEquals("rbkqn/ppppp/5/2P2/PP1PP/NQKBR", board.toString());
+	}
+
 }

@@ -38,19 +38,16 @@ public class ChessPlayerTest {
 		assertEquals(ChessColor.WHITE, p.getColor());
 	}
 
-	@SuppressWarnings("unused")
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorNullGame() {
 		new ChessPlayer(null, "test", ChessColor.WHITE);
 	}
 
-	@SuppressWarnings("unused")
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorNullName() {
 		new ChessPlayer(game, null, ChessColor.WHITE);
 	}
 
-	@SuppressWarnings("unused")
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorNullColor() {
 		new ChessPlayer(game, "test", null);
