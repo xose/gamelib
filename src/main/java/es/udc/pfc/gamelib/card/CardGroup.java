@@ -16,9 +16,11 @@
 
 package es.udc.pfc.gamelib.card;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Random;
+import java.util.RandomAccess;
 
 /**
  * A group of playing cards
@@ -39,7 +41,53 @@ public final class CardGroup<C extends Card<? extends Card.Suit>> extends Linked
 	 * Shuffles the cards in this group
 	 */
 	public final void shuffle() {
-		Collections.shuffle(this);
+		shuffle(this, new Random());
+	}
+
+	/**
+	 * Moves every element of the List to a random new position in the list
+	 * using the specified random number generator.
+	 * 
+	 * @param list
+	 *            the List to shuffle
+	 * @param random
+	 *            the random number generator
+	 * 
+	 * @throws UnsupportedOperationException
+	 *             when replacing an element in the List is not supported
+	 */
+	@SuppressWarnings("unchecked")
+	private final void shuffle(final List<?> list, final Random random) {
+		/* Code from Apache Harmony */
+
+		if (!(list instanceof RandomAccess)) {
+			final Object[] array = list.toArray();
+			for (int i = array.length - 1; i > 0; i--) {
+				int index = random.nextInt(i + 1);
+				if (index < 0) {
+					index = -index;
+				}
+				final Object temp = array[i];
+				array[i] = array[index];
+				array[index] = temp;
+			}
+
+			int i = 0;
+			final ListIterator<Object> it = (ListIterator<Object>) list.listIterator();
+			while (it.hasNext()) {
+				it.next();
+				it.set(array[i++]);
+			}
+		} else {
+			final List<Object> rawList = (List<Object>) list;
+			for (int i = rawList.size() - 1; i > 0; i--) {
+				int index = random.nextInt(i + 1);
+				if (index < 0) {
+					index = -index;
+				}
+				rawList.set(index, rawList.set(i, rawList.get(index)));
+			}
+		}
 	}
 
 }
