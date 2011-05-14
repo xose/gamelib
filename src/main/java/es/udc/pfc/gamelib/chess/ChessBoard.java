@@ -22,55 +22,13 @@ import java.util.Set;
 
 import es.udc.pfc.gamelib.board.AbstractBoard;
 import es.udc.pfc.gamelib.board.Position;
-import es.udc.pfc.gamelib.chess.pieces.ChessBishopMini;
-import es.udc.pfc.gamelib.chess.pieces.ChessKing;
-import es.udc.pfc.gamelib.chess.pieces.ChessKnight;
-import es.udc.pfc.gamelib.chess.pieces.ChessPawn;
-import es.udc.pfc.gamelib.chess.pieces.ChessQueen;
-import es.udc.pfc.gamelib.chess.pieces.ChessRook;
 
 /**
  * Represents a chess board
  */
 public abstract class ChessBoard extends AbstractBoard<ChessBoard, ChessMovement, ChessPiece> {
 
-	/**
-	 * Gets a new board for mini-chess
-	 * 
-	 * @return a new mini-chess board
-	 */
-	public static final ChessBoard getMiniChessBoard() {
-		final ChessBoard board = new ChessBoard() {
-			@Override
-			public final int getNumberOfColumns() {
-				return 5;
-			}
-
-			@Override
-			public final int getNumberOfRows() {
-				return 6;
-			}
-		};
-
-		board.setPieceAt(new Position(1, 1), new ChessKnight(board, ChessColor.WHITE));
-		board.setPieceAt(new Position(2, 1), new ChessQueen(board, ChessColor.WHITE));
-		board.setPieceAt(new Position(3, 1), new ChessKing(board, ChessColor.WHITE));
-		board.setPieceAt(new Position(4, 1), new ChessBishopMini(board, ChessColor.WHITE));
-		board.setPieceAt(new Position(5, 1), new ChessRook(board, ChessColor.WHITE));
-
-		for (int col = 1; col <= board.getNumberOfColumns(); col++) {
-			board.setPieceAt(new Position(col, 2), new ChessPawn(board, ChessColor.WHITE));
-			board.setPieceAt(new Position(col, 5), new ChessPawn(board, ChessColor.BLACK));
-		}
-
-		board.setPieceAt(new Position(1, 6), new ChessRook(board, ChessColor.BLACK));
-		board.setPieceAt(new Position(2, 6), new ChessBishopMini(board, ChessColor.BLACK));
-		board.setPieceAt(new Position(3, 6), new ChessKing(board, ChessColor.BLACK));
-		board.setPieceAt(new Position(4, 6), new ChessQueen(board, ChessColor.BLACK));
-		board.setPieceAt(new Position(5, 6), new ChessKnight(board, ChessColor.BLACK));
-
-		return board;
-	}
+	public static final String CHESSBOARD_MINI = "rbkqn/ppppp/5/5/PPPPP/NQKBR";
 
 	protected ChessBoard() {
 	}

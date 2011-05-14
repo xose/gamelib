@@ -33,7 +33,7 @@ public class ChessBoardTest {
 
 	@Before
 	public void setUp() throws Exception {
-		board = ChessBoard.getMiniChessBoard();
+		board = ChessBoard.fromString(ChessBoard.CHESSBOARD_MINI);
 	}
 
 	@Test

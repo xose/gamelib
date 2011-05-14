@@ -43,7 +43,7 @@ public final class ChessGame extends AbstractGame<ChessGame, ChessPlayer> {
 
 		switch (type) {
 		case MiniChess:
-			chessBoard = ChessBoard.getMiniChessBoard();
+			chessBoard = ChessBoard.fromString(ChessBoard.CHESSBOARD_MINI);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown chess type");
