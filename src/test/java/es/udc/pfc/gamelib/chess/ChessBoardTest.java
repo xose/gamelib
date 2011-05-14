@@ -81,4 +81,18 @@ public class ChessBoardTest {
 		assertEquals("rbkqn/ppppp/5/2P2/PP1PP/NQKBR", board.toString());
 	}
 
+	@Test
+	public void testFromString() {
+		final ChessBoard board2 = ChessBoard.fromString("rbkqn/ppppp/5/5/PPPPP/NQKBR");
+
+		assertEquals(5, board2.getNumberOfColumns());
+		assertEquals(6, board2.getNumberOfRows());
+		assertEquals("rbkqn/ppppp/5/5/PPPPP/NQKBR", board2.toString());
+
+		final ChessBoard board3 = ChessBoard.fromString("rbkqn/ppppp/5/2P2/PP1PP/NQKBR");
+		assertEquals(5, board2.getNumberOfColumns());
+		assertEquals(6, board2.getNumberOfRows());
+		assertEquals("rbkqn/ppppp/5/2P2/PP1PP/NQKBR", board3.toString());
+	}
+
 }

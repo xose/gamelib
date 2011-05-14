@@ -17,6 +17,12 @@
 package es.udc.pfc.gamelib.chess;
 
 import es.udc.pfc.gamelib.board.AbstractPiece;
+import es.udc.pfc.gamelib.chess.pieces.ChessBishopMini;
+import es.udc.pfc.gamelib.chess.pieces.ChessKing;
+import es.udc.pfc.gamelib.chess.pieces.ChessKnight;
+import es.udc.pfc.gamelib.chess.pieces.ChessPawn;
+import es.udc.pfc.gamelib.chess.pieces.ChessQueen;
+import es.udc.pfc.gamelib.chess.pieces.ChessRook;
 
 /**
  * Represents a chess piece
@@ -42,6 +48,26 @@ public abstract class ChessPiece extends AbstractPiece<ChessBoard, ChessMovement
 	@Override
 	public final boolean isEnemy(final ChessPiece other) {
 		return color != other.getColor();
+	}
+
+	public static final ChessPiece fromString(final ChessBoard board, final char input) {
+		final ChessColor color = Character.isUpperCase(input) ? ChessColor.WHITE : ChessColor.BLACK;
+
+		final char piece = Character.toUpperCase(input);
+		if (piece == 'K')
+			return new ChessKing(board, color);
+		if (piece == 'Q')
+			return new ChessQueen(board, color);
+		if (piece == 'B')
+			return new ChessBishopMini(board, color);
+		if (piece == 'N')
+			return new ChessKnight(board, color);
+		if (piece == 'R')
+			return new ChessRook(board, color);
+		if (piece == 'P')
+			return new ChessPawn(board, color);
+
+		throw new IllegalArgumentException("Unknown chess piece " + input);
 	}
 
 }

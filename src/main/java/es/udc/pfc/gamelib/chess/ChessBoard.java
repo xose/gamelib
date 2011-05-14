@@ -75,6 +75,48 @@ public abstract class ChessBoard extends AbstractBoard<ChessBoard, ChessMovement
 	protected ChessBoard() {
 	}
 
+	public static final ChessBoard fromString(final String input) {
+		final String[] lines = input.split("/");
+
+		// Get column size on first row
+		int colsize = 0;
+		for (final char c : lines[0].toCharArray()) {
+			colsize += Character.isDigit(c) ? Integer.parseInt(Character.toString(c)) : 1;
+		}
+
+		final int rows = lines.length;
+		final int cols = colsize;
+		final ChessBoard board = new ChessBoard() {
+			@Override
+			public final int getNumberOfRows() {
+				return rows;
+			}
+
+			@Override
+			public final int getNumberOfColumns() {
+				return cols;
+			}
+		};
+
+		for (int currow = 1; currow <= rows; currow++) {
+			int curcol = 1;
+			for (final char c : lines[lines.length - currow].toCharArray()) {
+				if (Character.isDigit(c)) {
+					curcol += Integer.parseInt(Character.toString(c));
+					continue;
+				}
+
+				board.setPieceAt(new Position(curcol, currow), ChessPiece.fromString(board, c));
+				curcol++;
+			}
+
+			if (curcol - 1 != colsize)
+				throw new IllegalArgumentException("Expected " + colsize + " columns on row " + currow + ", got " + (curcol - 1));
+		}
+
+		return board;
+	}
+
 	@Override
 	public final Set<ChessMovement> getPossibleMoves() {
 		return getPossibleMoves(null);
