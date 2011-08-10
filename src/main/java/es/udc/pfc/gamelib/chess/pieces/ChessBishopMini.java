@@ -16,9 +16,7 @@
 
 package es.udc.pfc.gamelib.chess.pieces;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import com.google.common.collect.ImmutableSet;
 
 import es.udc.pfc.gamelib.board.Position;
 import es.udc.pfc.gamelib.chess.ChessBoard;
@@ -28,28 +26,27 @@ import es.udc.pfc.gamelib.chess.ChessColor;
  * Represents a mini-chess Bishop
  */
 public final class ChessBishopMini extends ChessBishop {
-
+	
 	private final int[][] special = { { 0, +1 }, { 0, -1 }, { +1, 0 }, { -1, 0 } };
-
+	
 	public ChessBishopMini(final ChessBoard board, final ChessColor color) {
-		super(board, color);
+		super(board, color, 'V');
 	}
-
-	@Override
-	public final Set<Position> getAllMoves() {
-		final HashSet<Position> moves = new HashSet<Position>();
-
-		moves.addAll(super.getAllMoves());
-
+	
+	@Override public final ImmutableSet<Position> getStandardMoves() {
+		final ImmutableSet.Builder<Position> moves = ImmutableSet.builder();
+		
+		moves.addAll(super.getStandardMoves());
+		
 		for (final int[] element : special) {
 			final Position pos = getPosition().relative(element[0], element[1]);
-
-			if (getBoard().isValidPosition(pos) && !getBoard().isPieceAt(pos)) {
+			
+			if (board.isValidPosition(pos) && !board.isPieceAt(pos)) {
 				moves.add(pos);
 			}
 		}
-
-		return Collections.unmodifiableSet(moves);
+		
+		return moves.build();
 	}
-
+	
 }

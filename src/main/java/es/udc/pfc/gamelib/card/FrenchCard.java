@@ -24,14 +24,14 @@ import java.util.List;
  * Represents a French playing card
  */
 public class FrenchCard extends AbstractCard<FrenchCard.FrenchSuit> {
-
+	
 	/**
 	 * French suits
 	 */
 	public enum FrenchSuit implements Card.Suit {
 		Clubs, Diamonds, Hearts, Spades, Joker
 	}
-
+	
 	/**
 	 * Returns a standard deck of French cards
 	 * 
@@ -41,37 +41,35 @@ public class FrenchCard extends AbstractCard<FrenchCard.FrenchSuit> {
 	 */
 	public static final CardGroup<FrenchCard> getDeck(final boolean addJokers) {
 		final List<FrenchCard> cards = new ArrayList<FrenchCard>(52);
-
+		
 		for (final FrenchSuit suit : EnumSet.range(FrenchSuit.Clubs, FrenchSuit.Spades)) {
 			for (int i = 1; i <= 13; i++) {
 				cards.add(new FrenchCard(suit, i));
 			}
 		}
-
+		
 		if (addJokers) {
 			cards.add(new FrenchCard(FrenchSuit.Joker, 1));
 			cards.add(new FrenchCard(FrenchSuit.Joker, 2));
 		}
-
+		
 		return new CardGroup<FrenchCard>(cards);
 	}
-
+	
 	protected FrenchCard(final FrenchSuit suit, final int rank) {
 		super(suit, rank);
 	}
-
-	@Override
-	protected final int getMaxRank() {
+	
+	@Override protected final int getMaxRank() {
 		return 13;
 	}
-
-	@Override
-	public String toString() {
-		if (getSuit() == FrenchSuit.Joker)
+	
+	@Override public String toString() {
+		if (suit.equals(FrenchSuit.Joker))
 			return "Joker";
-
+		
 		final String strRank;
-		switch (getRank()) {
+		switch (rank) {
 		case 1:
 			strRank = "Ace";
 			break;
@@ -85,10 +83,10 @@ public class FrenchCard extends AbstractCard<FrenchCard.FrenchSuit> {
 			strRank = "King";
 			break;
 		default:
-			strRank = Integer.toString(getRank());
+			strRank = Integer.toString(rank);
 		}
-
-		return strRank + " of " + getSuit();
+		
+		return strRank + " of " + suit;
 	}
-
+	
 }

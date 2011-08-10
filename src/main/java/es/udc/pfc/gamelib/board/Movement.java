@@ -17,29 +17,22 @@
 package es.udc.pfc.gamelib.board;
 
 /**
- * Represents a {@link Piece} movement in a {@link Board}
+ * Represents a movement in a {@link Board}
  */
-public interface Movement<B extends Board<B, M, P>, M extends Movement<B, M, P>, P extends Piece<B, M, P>> {
-
-	/**
-	 * Returns the piece involved in the movement
-	 * 
-	 * @return the piece for this movement
-	 */
-	public P getPiece();
-
+public interface Movement {
+	
 	/**
 	 * Returns the source of this movement
 	 * 
 	 * @return the source position for this movement
 	 */
 	public Position getFrom();
-
+	
 	/**
 	 * Returns the destination of this movement
 	 * 
-	 * @return the source position for this movement
+	 * @return the destination position for this movement
 	 */
 	public Position getTo();
-
+	
 }

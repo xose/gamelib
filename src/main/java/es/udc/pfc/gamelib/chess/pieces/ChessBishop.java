@@ -16,9 +16,7 @@
 
 package es.udc.pfc.gamelib.chess.pieces;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import com.google.common.collect.ImmutableSet;
 
 import es.udc.pfc.gamelib.board.Position;
 import es.udc.pfc.gamelib.chess.ChessBoard;
@@ -29,26 +27,24 @@ import es.udc.pfc.gamelib.chess.ChessPiece;
  * Represents a chess Bishop
  */
 public class ChessBishop extends ChessPiece {
-
+	
 	public ChessBishop(final ChessBoard board, final ChessColor color) {
-		super(board, color);
+		super(board, color, 'B');
 	}
-
-	@Override
-	public Set<Position> getAllMoves() {
-		final HashSet<Position> moves = new HashSet<Position>();
-
+	
+	protected ChessBishop(final ChessBoard board, final ChessColor color, final char notation) {
+		super(board, color, notation);
+	}
+	
+	@Override public ImmutableSet<Position> getStandardMoves() {
+		final ImmutableSet.Builder<Position> moves = ImmutableSet.builder();
+		
 		moves.addAll(getMovesTo(Direction.NE));
 		moves.addAll(getMovesTo(Direction.NW));
 		moves.addAll(getMovesTo(Direction.SE));
 		moves.addAll(getMovesTo(Direction.SW));
-
-		return Collections.unmodifiableSet(moves);
+		
+		return moves.build();
 	}
-
-	@Override
-	public final String toString() {
-		return getColor() == ChessColor.WHITE ? "B" : "b";
-	}
-
+	
 }

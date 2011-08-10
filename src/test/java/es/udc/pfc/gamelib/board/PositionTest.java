@@ -24,43 +24,38 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class PositionTest {
-
-	@Test
-	public void testConstructor() {
+	
+	@Test public void testConstructor() {
 		final Position p = new Position(3, 4);
-
+		
 		assertEquals(3, p.getColumn());
 		assertEquals(4, p.getRow());
 	}
-
-	@Test
-	public void testEquality() {
+	
+	@Test public void testEquality() {
 		final Position p1 = new Position(3, 6);
 		final Position p2 = new Position(3, 6);
 		final Position p3 = new Position(2, 7);
-
+		
 		assertNotSame(p1, p2);
-
+		
 		assertTrue(p1.equals(p2));
 		assertFalse(p1.equals(p3));
 	}
-
-	@Test
-	public void testFromString() {
+	
+	@Test public void testFromString() {
 		assertEquals(new Position(3, 5), Position.fromString("c5"));
 	}
-
-	@Test
-	public void testToString() {
+	
+	@Test public void testToString() {
 		assertEquals("e2", new Position(5, 2).toString());
 	}
-
-	@Test
-	public void testRelative() {
+	
+	@Test public void testRelative() {
 		final Position origin = new Position(6, 3);
-
+		
 		assertEquals(new Position(8, 6), origin.relative(2, 3));
 		assertEquals(new Position(3, 1), origin.relative(-3, -2));
 	}
-
+	
 }

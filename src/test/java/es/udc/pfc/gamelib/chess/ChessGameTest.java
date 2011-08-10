@@ -20,66 +20,64 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
 import es.udc.pfc.gamelib.GameTest;
+import es.udc.pfc.gamelib.board.InvalidMovementException;
 import es.udc.pfc.gamelib.board.Position;
-import es.udc.pfc.gamelib.chess.ChessGame.ChessType;
 
-public class ChessGameTest extends GameTest<ChessGame, ChessPlayer> {
-
-	@Override
-	protected int expectedMinPlayers() {
+public class ChessGameTest extends GameTest<AbstractChessGame, ChessPlayer> {
+	
+	@Override protected int expectedMinPlayers() {
 		return 2;
 	}
-
-	@Override
-	protected int expectedMaxPlayers() {
+	
+	@Override protected int expectedMaxPlayers() {
 		return 2;
 	}
-
-	@Override
-	protected ChessGame getNewGame() {
-		return new ChessGame(ChessType.MiniChess);
+	
+	@Override protected AbstractChessGame getNewGame() {
+		return new MiniChessGame();
 	}
-
-	@Override
-	protected boolean addNewPlayer(final String name) {
+	
+	@Override protected boolean addNewPlayer(final String name) {
 		return game.addPlayer(name);
 	}
-
-	@Test
-	public void testCurrentTurn() {
+	
+	@Test public void testCurrentTurn() {
 		assertNull(game.getCurrentTurn());
 		assertTrue(game.addPlayer("white player"));
 		assertNull(game.getCurrentTurn());
 		assertTrue(game.addPlayer("black player"));
 		assertNotNull(game.getCurrentTurn());
-
+		
 		assertEquals(ChessColor.WHITE, game.getCurrentTurn());
 	}
-
-	@Test
-	public void testChessCurrentPlayer() {
+	
+	@Test public void testChessCurrentPlayer() {
 		assertNull(game.getCurrentPlayer());
 		assertTrue(game.addPlayer("white player"));
 		assertNull(game.getCurrentPlayer());
 		assertTrue(game.addPlayer("black player"));
 		assertNotNull(game.getCurrentPlayer());
-
+		
 		assertEquals("white player", game.getCurrentPlayer().getName());
 		assertEquals(ChessColor.WHITE, game.getCurrentPlayer().getColor());
 	}
-
-	@Test
-	public void testMovement() {
+	
+	@Test public void testMovement() {
 		testAddPlayers();
-
+		
 		assertEquals(ChessColor.WHITE, game.getCurrentTurn());
-		assertTrue(game.move(new Position(4, 2), new Position(4, 3)));
-		assertTrue(game.move(new Position(3, 5), new Position(3, 4)));
-
+		
+		try {
+			game.movePiece(new Position(4, 2), new Position(4, 3));
+			game.movePiece(new Position(3, 5), new Position(3, 4));
+		} catch (final InvalidMovementException e) {
+			fail(e.getMessage());
+		}
 	}
-
+	
 }

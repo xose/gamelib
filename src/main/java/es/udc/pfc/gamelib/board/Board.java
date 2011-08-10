@@ -17,27 +17,28 @@
 package es.udc.pfc.gamelib.board;
 
 import java.util.Collection;
-import java.util.Set;
+
+import javax.annotation.Nullable;
 
 /**
  * Represents a square gaming board
  */
-public interface Board<B extends Board<B, M, P>, M extends Movement<B, M, P>, P extends Piece<B, M, P>> {
-
-	/**
-	 * Returns the number of rows in this board
-	 * 
-	 * @return the number of rows in this board
-	 */
-	public int getNumberOfRows();
-
+public interface Board<P extends Piece> {
+	
 	/**
 	 * Returns the number of columns in this board
 	 * 
 	 * @return the number of columns in this board
 	 */
 	public int getNumberOfColumns();
-
+	
+	/**
+	 * Returns the number of rows in this board
+	 * 
+	 * @return the number of rows in this board
+	 */
+	public int getNumberOfRows();
+	
 	/**
 	 * Checks if {@code position} is a valid board position
 	 * 
@@ -46,7 +47,7 @@ public interface Board<B extends Board<B, M, P>, M extends Movement<B, M, P>, P 
 	 * @return true if the position is valid, false otherwise
 	 */
 	public boolean isValidPosition(final Position position);
-
+	
 	/**
 	 * Checks if there is a piece in {@code position}
 	 * 
@@ -55,7 +56,7 @@ public interface Board<B extends Board<B, M, P>, M extends Movement<B, M, P>, P 
 	 * @return true if there is a piece, false otherwise
 	 */
 	public boolean isPieceAt(final Position position);
-
+	
 	/**
 	 * Gets the piece in {@code position}
 	 * 
@@ -64,8 +65,8 @@ public interface Board<B extends Board<B, M, P>, M extends Movement<B, M, P>, P 
 	 * @return the piece at the given position, {@code null} if there is no
 	 *         piece
 	 */
-	public P getPieceAt(final Position position);
-
+	@Nullable public P getPieceAt(final Position position);
+	
 	/**
 	 * Sets the piece in {@code position} to a new piece
 	 * 
@@ -76,41 +77,13 @@ public interface Board<B extends Board<B, M, P>, M extends Movement<B, M, P>, P 
 	 * @return the piece that was at the given position, {@code null} if there
 	 *         was no piece
 	 */
-	public P setPieceAt(final Position position, final P piece);
-
+	@Nullable public P setPieceAt(final Position position, final P piece);
+	
 	/**
 	 * Returns all the pieces for this board
 	 * 
 	 * @return an unmodifiable collection of all the pieces in the board
 	 */
 	public Collection<P> getAllPieces();
-
-	/**
-	 * Gets the position for a given {@link Piece} in the board
-	 * 
-	 * @param piece
-	 *            the piece to get the position for
-	 * @return the position of the piece, or null if the piece is not in the
-	 *         board
-	 */
-	public Position getPositionFor(final P piece);
-
-	/**
-	 * Returns all the possible moves for all the pieces in the board
-	 * 
-	 * @return an unmodifiable set of all possible moves
-	 */
-	public Set<M> getPossibleMoves();
-
-	/**
-	 * Moves a piece from one position to another
-	 * 
-	 * @param from
-	 *            the current position for the piece
-	 * @param to
-	 *            the new position for the piece
-	 * @return a new Movement, null if the movement is not valid
-	 */
-	public M movePiece(final Position from, final Position to);
-
+	
 }

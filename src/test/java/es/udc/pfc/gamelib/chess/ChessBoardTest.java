@@ -28,71 +28,54 @@ import es.udc.pfc.gamelib.board.Position;
 import es.udc.pfc.gamelib.chess.pieces.ChessKing;
 
 public class ChessBoardTest {
-
+	
 	private ChessBoard board;
-
-	@Before
-	public void setUp() throws Exception {
+	
+	@Before public void setUp() throws Exception {
 		board = ChessBoard.fromString(ChessBoard.CHESSBOARD_MINI);
 	}
-
-	@Test
-	public void testBoardSize() {
+	
+	@Test public void testBoardSize() {
 		assertEquals(5, board.getNumberOfColumns());
 		assertEquals(6, board.getNumberOfRows());
 	}
-
-	@Test
-	public void testValidPosition() {
+	
+	@Test public void testValidPosition() {
 		assertTrue(board.isValidPosition(new Position(1, 1)));
 		assertTrue(board.isValidPosition(new Position(5, 5)));
 		assertTrue(board.isValidPosition(new Position(3, 2)));
-
+		
 		assertFalse(board.isValidPosition(new Position(0, 0)));
 		assertFalse(board.isValidPosition(new Position(6, 3)));
 		assertFalse(board.isValidPosition(new Position(2, 7)));
 		assertFalse(board.isValidPosition(new Position(6, 7)));
 	}
-
-	@Test
-	public void testGetAllPieces() {
+	
+	@Test public void testGetAllPieces() {
 		assertEquals(20, board.getAllPieces().size());
 	}
-
-	@Test
-	public void testGetPiece() {
+	
+	@Test public void testGetPiece() {
 		assertNull(board.getPieceAt(new Position(3, 3)));
-
+		
 		assertEquals(ChessKing.class, board.getPieceAt(new Position(3, 1)).getClass());
 	}
-
-	@Test
-	public void testGetMovements() {
-		assertEquals(12, board.getPossibleMoves().size());
-		assertEquals(6, board.getPossibleMoves(ChessColor.WHITE).size());
-		assertEquals(6, board.getPossibleMoves(ChessColor.BLACK).size());
+	
+	@Test public void testToString() {
+		assertEquals("rvkqn/ppppp/5/5/PPPPP/NQKVR", board.toString());
 	}
-
-	@Test
-	public void testToString() {
-		assertEquals("rbkqn/ppppp/5/5/PPPPP/NQKBR", board.toString());
-
-		board.movePiece(new Position(3, 2), new Position(3, 3));
-		assertEquals("rbkqn/ppppp/5/2P2/PP1PP/NQKBR", board.toString());
-	}
-
-	@Test
-	public void testFromString() {
-		final ChessBoard board2 = ChessBoard.fromString("rbkqn/ppppp/5/5/PPPPP/NQKBR");
-
+	
+	@Test public void testFromString() {
+		final ChessBoard board2 = ChessBoard.fromString("rvkqn/ppppp/5/5/PPPPP/NQKVR");
+		
 		assertEquals(5, board2.getNumberOfColumns());
 		assertEquals(6, board2.getNumberOfRows());
-		assertEquals("rbkqn/ppppp/5/5/PPPPP/NQKBR", board2.toString());
-
-		final ChessBoard board3 = ChessBoard.fromString("rbkqn/ppppp/5/2P2/PP1PP/NQKBR");
+		assertEquals("rvkqn/ppppp/5/5/PPPPP/NQKVR", board2.toString());
+		
+		final ChessBoard board3 = ChessBoard.fromString("rvkqn/ppppp/5/2P2/PP1PP/NQKVR");
 		assertEquals(5, board2.getNumberOfColumns());
 		assertEquals(6, board2.getNumberOfRows());
-		assertEquals("rbkqn/ppppp/5/2P2/PP1PP/NQKBR", board3.toString());
+		assertEquals("rvkqn/ppppp/5/2P2/PP1PP/NQKVR", board3.toString());
 	}
-
+	
 }

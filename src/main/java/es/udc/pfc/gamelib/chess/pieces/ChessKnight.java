@@ -16,9 +16,7 @@
 
 package es.udc.pfc.gamelib.chess.pieces;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import com.google.common.collect.ImmutableSet;
 
 import es.udc.pfc.gamelib.board.Position;
 import es.udc.pfc.gamelib.chess.ChessBoard;
@@ -29,31 +27,25 @@ import es.udc.pfc.gamelib.chess.ChessPiece;
  * Represents a chess Knight
  */
 public final class ChessKnight extends ChessPiece {
-
+	
 	private final int[][] knight = { { +2, +1 }, { +2, -1 }, { -2, +1 }, { -2, -1 }, { +1, +2 }, { -1, +2 }, { +1, -2 }, { -1, -2 } };
-
+	
 	public ChessKnight(final ChessBoard board, final ChessColor color) {
-		super(board, color);
+		super(board, color, 'N');
 	}
-
-	@Override
-	public final Set<Position> getAllMoves() {
-		final HashSet<Position> moves = new HashSet<Position>();
-
+	
+	@Override public final ImmutableSet<Position> getStandardMoves() {
+		final ImmutableSet.Builder<Position> moves = ImmutableSet.builder();
+		
 		for (final int[] element : knight) {
 			final Position pos = getPosition().relative(element[0], element[1]);
-
-			if (getBoard().isValidPosition(pos) && (!getBoard().isPieceAt(pos) || isEnemy(getBoard().getPieceAt(pos)))) {
+			
+			if (board.isValidPosition(pos) && (!board.isPieceAt(pos) || isEnemy(board.getPieceAt(pos)))) {
 				moves.add(pos);
 			}
 		}
-
-		return Collections.unmodifiableSet(moves);
+		
+		return moves.build();
 	}
-
-	@Override
-	public final String toString() {
-		return getColor() == ChessColor.WHITE ? "N" : "n";
-	}
-
+	
 }

@@ -16,47 +16,32 @@
 
 package es.udc.pfc.gamelib.board;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Abstract movement class
  * 
  * This class implements the common methods for all {@link Movement} subclasses
  */
-public abstract class AbstractMovement<B extends Board<B, M, P>, M extends Movement<B, M, P>, P extends Piece<B, M, P>> implements Movement<B, M, P> {
-
-	private final P piece;
-	private final Position from;
-	private final Position to;
-
-	protected AbstractMovement(final P piece, final Position from, final Position to) {
-		if (piece == null)
-			throw new IllegalArgumentException("piece cannot be null");
-		if (from == null)
-			throw new IllegalArgumentException("from cannot be null");
-		if (to == null)
-			throw new IllegalArgumentException("to cannot be null");
-
-		this.piece = piece;
-		this.from = from;
-		this.to = to;
+public abstract class AbstractMovement implements Movement {
+	
+	protected final Position from;
+	protected final Position to;
+	
+	protected AbstractMovement(final Position from, final Position to) {
+		this.from = checkNotNull(from);
+		this.to = checkNotNull(to);
 	}
-
-	@Override
-	public final P getPiece() {
-		return piece;
-	}
-
-	@Override
-	public final Position getFrom() {
+	
+	@Override public final Position getFrom() {
 		return from;
 	}
-
-	@Override
-	public final Position getTo() {
+	
+	@Override public final Position getTo() {
 		return to;
 	}
-
-	@Override
-	public String toString() {
-		return getFrom().toString() + " " + getTo().toString();
+	
+	@Override public String toString() {
+		return from.toString() + "-" + to.toString();
 	}
 }

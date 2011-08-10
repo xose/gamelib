@@ -16,92 +16,24 @@
 
 package es.udc.pfc.gamelib.chess;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import es.udc.pfc.gamelib.AbstractGame;
+import es.udc.pfc.gamelib.board.BoardGame;
+import es.udc.pfc.gamelib.board.InvalidMovementException;
 import es.udc.pfc.gamelib.board.Position;
 
 /**
  * Represents a chess game
  */
-public final class ChessGame extends AbstractGame<ChessGame, ChessPlayer> {
-
-	private final ChessBoard chessBoard;
-	private final List<ChessMovement> movements;
-
-	public enum ChessType {
-		MiniChess
-	}
-
+public interface ChessGame extends BoardGame<ChessBoard, ChessMovement, ChessPlayer> {
+	
 	/**
-	 * Constructs a new chess game
-	 */
-	public ChessGame(final ChessType type) {
-		movements = new ArrayList<ChessMovement>();
-
-		switch (type) {
-		case MiniChess:
-			chessBoard = ChessBoard.fromString(ChessBoard.CHESSBOARD_MINI);
-			break;
-		default:
-			throw new IllegalArgumentException("Unknown chess type");
-		}
-	}
-
-	@Override
-	public final int getMinPlayerCount() {
-		return 2;
-	}
-
-	@Override
-	public final int getMaxPlayerCount() {
-		return 2;
-	}
-
-	/**
-	 * Returns the color for the current turn
+	 * Adds a new Player to this chess game
 	 * 
-	 * @return the color for the current turn
+	 * @param name
+	 *            The name of the new player to add
+	 * @return true if the player was added, false otherwise
 	 */
-	public final ChessColor getCurrentTurn() {
-		if (getPlayerCount() != 2)
-			return null;
-
-		return movements.size() % 2 == 0 ? ChessColor.WHITE : ChessColor.BLACK;
-	}
-
-	@Override
-	public final ChessPlayer getCurrentPlayer() {
-		if (getPlayerCount() != 2)
-			return null;
-
-		return getPlayers().get(getCurrentTurn() == ChessColor.WHITE ? 0 : 1);
-	}
-
-	public final boolean addPlayer(final String name) {
-		return addPlayer(new ChessPlayer(this, name, (getPlayerCount() == 1 ? ChessColor.BLACK : ChessColor.WHITE)));
-	}
-
-	/**
-	 * Returns the board for this chess game
-	 * 
-	 * @return the board for this game
-	 */
-	public final ChessBoard getBoard() {
-		return chessBoard;
-	}
-
-	/**
-	 * Returns the list of movements made in this game
-	 * 
-	 * @return an unmodifiable list of the movements in this game
-	 */
-	public final List<ChessMovement> getMovements() {
-		return Collections.unmodifiableList(movements);
-	}
-
+	public boolean addPlayer(final String name);
+	
 	/**
 	 * Moves a chess piece
 	 * 
@@ -111,40 +43,6 @@ public final class ChessGame extends AbstractGame<ChessGame, ChessPlayer> {
 	 *            the destination of the movement
 	 * @return true if the movement succeeded, false otherwise
 	 */
-	public final boolean move(final Position from, final Position to) {
-		if (chessBoard.getPieceAt(from) == null || chessBoard.getPieceAt(from).getColor() != getCurrentTurn())
-			return false;
-
-		final ChessMovement movement = chessBoard.movePiece(from, to);
-		if (movement == null)
-			return false;
-
-		movements.add(movement);
-
-		return true;
-	}
-
-	/**
-	 * Undoes the last movement
-	 * 
-	 * @return true if the movement was undone, false otherwise
-	 */
-	public final boolean undo() {
-		if (movements.isEmpty())
-			return false;
-
-		final ChessMovement lastMove = movements.get(movements.size() - 1);
-
-		chessBoard.setPieceAt(lastMove.getFrom(), lastMove.getPiece());
-		chessBoard.setPieceAt(lastMove.getTo(), lastMove.getAttackedPiece());
-
-		movements.remove(lastMove);
-
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Chess Game";
-	}
+	public void movePiece(final Position from, final Position to) throws InvalidMovementException;
+	
 }

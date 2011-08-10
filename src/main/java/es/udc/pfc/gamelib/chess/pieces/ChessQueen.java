@@ -16,9 +16,7 @@
 
 package es.udc.pfc.gamelib.chess.pieces;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import com.google.common.collect.ImmutableSet;
 
 import es.udc.pfc.gamelib.board.Position;
 import es.udc.pfc.gamelib.chess.ChessBoard;
@@ -29,15 +27,14 @@ import es.udc.pfc.gamelib.chess.ChessPiece;
  * Represents a chess Queen
  */
 public final class ChessQueen extends ChessPiece {
-
+	
 	public ChessQueen(final ChessBoard board, final ChessColor color) {
-		super(board, color);
+		super(board, color, 'Q');
 	}
-
-	@Override
-	public final Set<Position> getAllMoves() {
-		final HashSet<Position> moves = new HashSet<Position>();
-
+	
+	@Override public final ImmutableSet<Position> getStandardMoves() {
+		final ImmutableSet.Builder<Position> moves = ImmutableSet.builder();
+		
 		moves.addAll(getMovesTo(Direction.N));
 		moves.addAll(getMovesTo(Direction.S));
 		moves.addAll(getMovesTo(Direction.E));
@@ -46,13 +43,8 @@ public final class ChessQueen extends ChessPiece {
 		moves.addAll(getMovesTo(Direction.NW));
 		moves.addAll(getMovesTo(Direction.SE));
 		moves.addAll(getMovesTo(Direction.SW));
-
-		return Collections.unmodifiableSet(moves);
+		
+		return moves.build();
 	}
-
-	@Override
-	public final String toString() {
-		return getColor() == ChessColor.WHITE ? "Q" : "q";
-	}
-
+	
 }

@@ -25,69 +25,55 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-public abstract class GameTest<G extends AbstractGame<G, P>, P extends AbstractPlayer<G, P>> {
-
+public abstract class GameTest<G extends AbstractGame<P>, P extends AbstractPlayer> {
+	
 	protected G game;
-
+	
 	protected abstract int expectedMinPlayers();
-
+	
 	protected abstract int expectedMaxPlayers();
-
+	
 	protected abstract G getNewGame();
-
+	
 	protected abstract boolean addNewPlayer(String name);
-
-	@Before
-	public void setUp() throws Exception {
+	
+	@Before public void setUp() throws Exception {
 		this.game = getNewGame();
 	}
-
-	@Test
-	public void testPlayerNumber() {
-		assertEquals(game.getMinPlayerCount(), expectedMinPlayers());
-		assertEquals(game.getMaxPlayerCount(), expectedMaxPlayers());
-	}
-
-	@Test
-	public void testEmptyPlayers() {
+	
+	@Test public void testEmptyPlayers() {
 		assertEquals(game.getPlayerCount(), 0);
 	}
-
-	@Test
-	public void testCurrentPlayerNull() {
+	
+	@Test public void testCurrentPlayerNull() {
 		assertNull(game.getCurrentPlayer());
 	}
-
-	@Test
-	public void testAddPlayers() {
-		for (int i = 1; i <= game.getMaxPlayerCount(); i++) {
+	
+	@Test public void testAddPlayers() {
+		for (int i = 1; i <= expectedMaxPlayers(); i++) {
 			assertTrue(addNewPlayer("test " + i));
 			assertEquals(game.getPlayerCount(), i);
 		}
-
+		
 		assertFalse(addNewPlayer("fail"));
-		assertEquals(game.getPlayerCount(), game.getMaxPlayerCount());
+		assertEquals(game.getPlayerCount(), expectedMaxPlayers());
 	}
-
-	@Test
-	public void testCurrentPlayer() {
+	
+	@Test public void testCurrentPlayer() {
 		testAddPlayers();
-
+		
 		final P current = game.getCurrentPlayer();
-
+		
 		assertNotNull(current);
 		assertEquals(current.getName(), "test 1");
-
-		assertTrue(current.isCurrentTurn());
 	}
-
-	@Test
-	public void testRemovePlayer() {
+	
+	@Test public void testRemovePlayer() {
 		testAddPlayers();
-
-		assertEquals(game.getPlayerCount(), game.getMaxPlayerCount());
+		
+		assertEquals(game.getPlayerCount(), expectedMaxPlayers());
 		assertTrue(game.removePlayer(game.getCurrentPlayer()));
-		assertEquals(game.getPlayerCount(), game.getMaxPlayerCount() - 1);
+		assertEquals(game.getPlayerCount(), expectedMaxPlayers() - 1);
 	}
-
+	
 }

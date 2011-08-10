@@ -14,22 +14,31 @@
  * limitations under the License.
  */
 
-package es.udc.pfc.gamelib.chess;
+package es.udc.pfc.gamelib.board;
 
-import static org.junit.Assert.assertEquals;
+import com.google.common.base.Objects;
 
-import org.junit.Test;
-
-public class ChessColorTest {
+/**
+ * Represents a movement in a {@link Board}
+ */
+public final class SimpleMovement extends AbstractMovement {
 	
-	@Test public void testOther() {
-		assertEquals(ChessColor.BLACK, ChessColor.WHITE.other());
-		assertEquals(ChessColor.WHITE, ChessColor.BLACK.other());
+	public SimpleMovement(final Position from, final Position to) {
+		super(from, to);
 	}
 	
-	@Test public void testToString() {
-		assertEquals("White", ChessColor.WHITE.toString());
-		assertEquals("Black", ChessColor.BLACK.toString());
+	@Override public final boolean equals(final Object obj) {
+		if (obj instanceof SimpleMovement) {
+			final SimpleMovement other = (SimpleMovement) obj;
+			
+			return from == other.from && to == other.to;
+		}
+		
+		return super.equals(obj);
+	}
+	
+	@Override public int hashCode() {
+		return Objects.hashCode(from, to);
 	}
 	
 }

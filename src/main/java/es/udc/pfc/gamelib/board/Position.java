@@ -16,14 +16,21 @@
 
 package es.udc.pfc.gamelib.board;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import javax.annotation.Nullable;
+
+import com.google.common.base.Objects;
+
 /**
  * Represents the row and column coordinates of a square in a {@link Board}
  */
 public final class Position {
-
+	
 	private final int column;
 	private final int row;
-
+	
 	/**
 	 * Position constructor
 	 * 
@@ -36,7 +43,7 @@ public final class Position {
 		this.column = column;
 		this.row = row;
 	}
-
+	
 	/**
 	 * Create a new position from a String
 	 * 
@@ -46,13 +53,12 @@ public final class Position {
 	 *            the string to parse
 	 * @return a new Position
 	 */
-	public static final Position fromString(final String str) {
-		if (!str.matches("^[a-h][1-8]$"))
-			return null;
-
+	@Nullable public static final Position fromString(final String str) {
+		checkArgument(checkNotNull(str).matches("^[a-h][1-8]$"));
+		
 		return new Position(str.charAt(0) - 'a' + 1, str.charAt(1) - '1' + 1);
 	}
-
+	
 	/**
 	 * Create a new position relative to the this one
 	 * 
@@ -65,7 +71,7 @@ public final class Position {
 	public final Position relative(final int addColumn, final int addRow) {
 		return new Position(column + addColumn, row + addRow);
 	}
-
+	
 	/**
 	 * Returns the column for this position
 	 * 
@@ -74,7 +80,7 @@ public final class Position {
 	public final int getColumn() {
 		return column;
 	}
-
+	
 	/**
 	 * Returns the row for this position
 	 * 
@@ -83,26 +89,26 @@ public final class Position {
 	public final int getRow() {
 		return row;
 	}
-
-	@Override
-	public final boolean equals(final Object obj) {
+	
+	@Override public final boolean equals(final Object obj) {
 		if (obj instanceof Position) {
 			final Position other = (Position) obj;
-
+			
 			return column == other.column && row == other.row;
 		}
-
+		
 		return super.equals(obj);
 	}
-
-	@Override
-	public final int hashCode() {
-		return column << 16 ^ row;
+	
+	@Override public final int hashCode() {
+		return Objects.hashCode(Integer.valueOf(column), Integer.valueOf(row));
 	}
-
-	@Override
-	public final String toString() {
-		return Character.toString((char) ('a' + getColumn() - 1)) + getRow();
+	
+	@Override public final String toString() {
+		if (column > 0 && column <= 8 && row > 0 && row <= 8)
+			return Character.toString((char) ('a' + column - 1)) + row;
+		
+		return String.format("[%d,%d]", Integer.valueOf(column), Integer.valueOf(row));
 	}
-
+	
 }

@@ -24,14 +24,14 @@ import java.util.List;
  * Represents a Spanish playing card
  */
 public class SpanishCard extends AbstractCard<SpanishCard.SpanishSuit> {
-
+	
 	/**
 	 * Spanish suits
 	 */
 	public enum SpanishSuit implements Card.Suit {
 		Oros, Copas, Espadas, Bastos, Comodin
 	}
-
+	
 	/**
 	 * Returns a standard deck of Spanish cards
 	 * 
@@ -43,41 +43,39 @@ public class SpanishCard extends AbstractCard<SpanishCard.SpanishSuit> {
 	 */
 	public static final CardGroup<SpanishCard> getDeck(final boolean extra, final boolean addJokers) {
 		final List<SpanishCard> cards = new ArrayList<SpanishCard>(40);
-
+		
 		for (final SpanishSuit suit : EnumSet.range(SpanishSuit.Oros, SpanishSuit.Bastos)) {
 			for (int i = 1; i <= 12; i++) {
 				if (!extra && (i == 8 || i == 9)) {
 					continue;
 				}
-
+				
 				cards.add(new SpanishCard(suit, i));
 			}
 		}
-
+		
 		if (addJokers) {
 			cards.add(new SpanishCard(SpanishSuit.Comodin, 1));
 			cards.add(new SpanishCard(SpanishSuit.Comodin, 2));
 		}
-
+		
 		return new CardGroup<SpanishCard>(cards);
 	}
-
+	
 	protected SpanishCard(final SpanishSuit suit, final int rank) {
 		super(suit, rank);
 	}
-
-	@Override
-	protected int getMaxRank() {
+	
+	@Override protected int getMaxRank() {
 		return 12;
 	}
-
-	@Override
-	public String toString() {
-		if (getSuit() == SpanishSuit.Comodin)
+	
+	@Override public String toString() {
+		if (suit.equals(SpanishSuit.Comodin))
 			return "Comodín";
-
+		
 		final String strRank;
-		switch (getRank()) {
+		switch (rank) {
 		case 1:
 			strRank = "As";
 			break;
@@ -91,10 +89,10 @@ public class SpanishCard extends AbstractCard<SpanishCard.SpanishSuit> {
 			strRank = "Rey";
 			break;
 		default:
-			strRank = Integer.toString(getRank());
+			strRank = Integer.toString(rank);
 		}
-
-		return strRank + " de " + getSuit();
+		
+		return strRank + " de " + suit;
 	}
-
+	
 }

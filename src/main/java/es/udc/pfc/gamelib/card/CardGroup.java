@@ -25,25 +25,25 @@ import java.util.RandomAccess;
 /**
  * A group of playing cards
  */
-public final class CardGroup<C extends Card<? extends Card.Suit>> extends LinkedList<C> {
-
+public final class CardGroup<C extends Card<?>> extends LinkedList<C> {
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	public CardGroup() {
 		super();
 	}
-
+	
 	public CardGroup(final List<C> cards) {
 		super(cards);
 	}
-
+	
 	/**
 	 * Shuffles the cards in this group
 	 */
 	public final void shuffle() {
 		shuffle(this, new Random());
 	}
-
+	
 	/**
 	 * Moves every element of the List to a random new position in the list
 	 * using the specified random number generator.
@@ -56,10 +56,9 @@ public final class CardGroup<C extends Card<? extends Card.Suit>> extends Linked
 	 * @throws UnsupportedOperationException
 	 *             when replacing an element in the List is not supported
 	 */
-	@SuppressWarnings("unchecked")
-	private final void shuffle(final List<?> list, final Random random) {
+	@SuppressWarnings("unchecked") private static final void shuffle(final List<?> list, final Random random) {
 		/* Code from Apache Harmony */
-
+		
 		if (!(list instanceof RandomAccess)) {
 			final Object[] array = list.toArray();
 			for (int i = array.length - 1; i > 0; i--) {
@@ -71,7 +70,7 @@ public final class CardGroup<C extends Card<? extends Card.Suit>> extends Linked
 				array[i] = array[index];
 				array[index] = temp;
 			}
-
+			
 			int i = 0;
 			final ListIterator<Object> it = (ListIterator<Object>) list.listIterator();
 			while (it.hasNext()) {
@@ -89,5 +88,5 @@ public final class CardGroup<C extends Card<? extends Card.Suit>> extends Linked
 			}
 		}
 	}
-
+	
 }

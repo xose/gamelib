@@ -16,7 +16,15 @@
 
 package es.udc.pfc.gamelib.chess;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.collect.ImmutableSet;
+
 import es.udc.pfc.gamelib.board.AbstractPiece;
+import es.udc.pfc.gamelib.board.Piece;
+import es.udc.pfc.gamelib.board.Position;
+import es.udc.pfc.gamelib.chess.pieces.ChessBishop;
 import es.udc.pfc.gamelib.chess.pieces.ChessBishopMini;
 import es.udc.pfc.gamelib.chess.pieces.ChessKing;
 import es.udc.pfc.gamelib.chess.pieces.ChessKnight;
@@ -27,15 +35,20 @@ import es.udc.pfc.gamelib.chess.pieces.ChessRook;
 /**
  * Represents a chess piece
  */
-public abstract class ChessPiece extends AbstractPiece<ChessBoard, ChessMovement, ChessPiece> {
-
+public abstract class ChessPiece extends AbstractPiece {
+	
 	private final ChessColor color;
-
-	protected ChessPiece(final ChessBoard board, final ChessColor color) {
+	private final char notation;
+	
+	protected ChessPiece(final ChessBoard board, final ChessColor color, final char notation) {
 		super(board);
-		this.color = color;
+		
+		this.color = checkNotNull(color);
+		this.notation = notation;
+		
+		checkArgument(Character.isUpperCase(notation));
 	}
-
+	
 	/**
 	 * Returns the color of this piece
 	 * 
@@ -44,30 +57,53 @@ public abstract class ChessPiece extends AbstractPiece<ChessBoard, ChessMovement
 	public final ChessColor getColor() {
 		return color;
 	}
-
-	@Override
-	public final boolean isEnemy(final ChessPiece other) {
-		return color != other.getColor();
+	
+	/**
+	 * Returns a set of all standard movements for this piece
+	 * 
+	 * @return an unmodifiable set of movements for this piece
+	 */
+	public abstract ImmutableSet<Position> getStandardMoves();
+	
+	@Override public final boolean isEnemy(final Piece piece) {
+		checkNotNull(piece);
+		
+		if (piece instanceof ChessPiece) {
+			final ChessPiece other = (ChessPiece) piece;
+			
+			return board == other.board && color != other.color;
+		}
+		
+		return false;
 	}
-
+	
 	public static final ChessPiece fromString(final ChessBoard board, final char input) {
+		checkNotNull(board);
+		
 		final ChessColor color = Character.isUpperCase(input) ? ChessColor.WHITE : ChessColor.BLACK;
-
-		final char piece = Character.toUpperCase(input);
-		if (piece == 'K')
+		
+		switch (Character.toUpperCase(input)) {
+		case 'K':
 			return new ChessKing(board, color);
-		if (piece == 'Q')
+		case 'Q':
 			return new ChessQueen(board, color);
-		if (piece == 'B')
+		case 'B':
+			return new ChessBishop(board, color);
+		case 'V':
 			return new ChessBishopMini(board, color);
-		if (piece == 'N')
+		case 'N':
 			return new ChessKnight(board, color);
-		if (piece == 'R')
+		case 'R':
 			return new ChessRook(board, color);
-		if (piece == 'P')
+		case 'P':
 			return new ChessPawn(board, color);
-
-		throw new IllegalArgumentException("Unknown chess piece " + input);
+		default:
+			throw new IllegalArgumentException("Unknown chess piece " + input);
+		}
 	}
-
+	
+	@Override public final String toString() {
+		return Character.toString(color.equals(ChessColor.WHITE) ? notation : Character.toLowerCase(notation));
+	}
+	
 }

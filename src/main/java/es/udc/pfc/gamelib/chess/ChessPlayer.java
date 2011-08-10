@@ -16,15 +16,16 @@
 
 package es.udc.pfc.gamelib.chess;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import es.udc.pfc.gamelib.AbstractPlayer;
 
 /**
  * Represents a chess player
  */
-public final class ChessPlayer extends AbstractPlayer<ChessGame, ChessPlayer> {
-
+public final class ChessPlayer extends AbstractPlayer {
+	
 	private final ChessColor color;
-
+	
 	/**
 	 * Creates a new chess player
 	 * 
@@ -35,15 +36,12 @@ public final class ChessPlayer extends AbstractPlayer<ChessGame, ChessPlayer> {
 	 * @param color
 	 *            the color for this player
 	 */
-	protected ChessPlayer(final ChessGame game, final String name, final ChessColor color) {
+	protected ChessPlayer(final AbstractChessGame game, final String name, final ChessColor color) {
 		super(game, name);
-
-		if (color == null)
-			throw new IllegalArgumentException("color cannot be null");
-
-		this.color = color;
+		
+		this.color = checkNotNull(color);
 	}
-
+	
 	/**
 	 * Returns the color of this player
 	 * 
@@ -52,9 +50,8 @@ public final class ChessPlayer extends AbstractPlayer<ChessGame, ChessPlayer> {
 	public final ChessColor getColor() {
 		return color;
 	}
-
-	@Override
-	public final String toString() {
-		return "Chess Player: " + getName() + " (" + color.toString() + ")";
+	
+	@Override public final String toString() {
+		return "Chess Player: " + name + " (" + color.toString() + ")";
 	}
 }

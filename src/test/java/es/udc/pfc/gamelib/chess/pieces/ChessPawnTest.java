@@ -17,9 +17,10 @@
 package es.udc.pfc.gamelib.chess.pieces;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -28,162 +29,152 @@ import es.udc.pfc.gamelib.chess.ChessColor;
 import es.udc.pfc.gamelib.chess.ChessPieceTest;
 
 public class ChessPawnTest extends ChessPieceTest {
-
-	@Override
-	protected ChessPawn addPiece(final Position position, final ChessColor color) {
+	
+	@Override protected ChessPawn addPiece(final Position position, final ChessColor color) {
 		final ChessPawn piece = new ChessPawn(board, color);
 		if (position != null) {
 			assertNull(board.setPieceAt(position, piece));
 		}
 		return piece;
 	}
-
-	@Test
-	public void testPawnToString() {
+	
+	@Test public void testPawnToString() {
 		assertEquals("P", addPiece(null, ChessColor.WHITE).toString());
 		assertEquals("p", addPiece(null, ChessColor.BLACK).toString());
 	}
-
-	@Test
-	public void testWhitePawnNormal() {
+	
+	@Test public void testWhitePawnNormal() {
 		final ChessPawn pawn = addPiece(new Position(2, 2), ChessColor.WHITE);
-
-		assertEquals(1, pawn.getAllMoves().size());
-		assertTrue(pawn.canMove(new Position(2, 3)));
+		final Set<Position> moves = pawn.getStandardMoves();
+		
+		assertEquals(1, moves.size());
+		assertTrue(moves.contains(new Position(2, 3)));
 	}
-
-	@Test
-	public void testWhitePawnTeamBlocked() {
+	
+	@Test public void testWhitePawnTeamBlocked() {
 		final ChessPawn pawn = addPiece(new Position(2, 2), ChessColor.WHITE);
-
+		
 		assertNull(board.setPieceAt(new Position(1, 3), new ChessRook(board, ChessColor.WHITE)));
 		assertNull(board.setPieceAt(new Position(2, 3), new ChessRook(board, ChessColor.WHITE)));
 		assertNull(board.setPieceAt(new Position(3, 3), new ChessRook(board, ChessColor.WHITE)));
-		assertEquals(0, pawn.getAllMoves().size());
-		assertNotNull(board.setPieceAt(new Position(2, 3), null));
+		
+		assertEquals(0, pawn.getStandardMoves().size());
 	}
-
-	@Test
-	public void testWhitePawnBlocked() {
+	
+	@Test public void testWhitePawnBlocked() {
 		final ChessPawn pawn = addPiece(new Position(2, 2), ChessColor.WHITE);
-
+		
 		assertNull(board.setPieceAt(new Position(2, 3), new ChessRook(board, ChessColor.BLACK)));
-		assertEquals(0, pawn.getAllMoves().size());
-		assertNotNull(board.setPieceAt(new Position(2, 3), null));
+		
+		assertEquals(0, pawn.getStandardMoves().size());
 	}
-
-	@Test
-	public void testWhitePawnAttackL() {
+	
+	@Test public void testWhitePawnAttackL() {
 		final ChessPawn pawn = addPiece(new Position(2, 2), ChessColor.WHITE);
-
+		
 		assertNull(board.setPieceAt(new Position(1, 3), new ChessRook(board, ChessColor.BLACK)));
-		assertEquals(2, pawn.getAllMoves().size());
-		assertTrue(pawn.canMove(new Position(2, 3)));
-		assertTrue(pawn.canMove(new Position(1, 3)));
-		assertNotNull(board.setPieceAt(new Position(1, 3), null));
+		
+		final Set<Position> moves = pawn.getStandardMoves();
+		assertEquals(2, moves.size());
+		assertTrue(moves.contains(new Position(2, 3)));
+		assertTrue(moves.contains(new Position(1, 3)));
 	}
-
-	@Test
-	public void testWhitePawnAttackR() {
+	
+	@Test public void testWhitePawnAttackR() {
 		final ChessPawn pawn = addPiece(new Position(2, 2), ChessColor.WHITE);
-
+		
 		assertNull(board.setPieceAt(new Position(3, 3), new ChessRook(board, ChessColor.BLACK)));
-		assertEquals(2, pawn.getAllMoves().size());
-		assertTrue(pawn.canMove(new Position(2, 3)));
-		assertTrue(pawn.canMove(new Position(3, 3)));
-		assertNotNull(board.setPieceAt(new Position(3, 3), null));
+		
+		final Set<Position> moves = pawn.getStandardMoves();
+		assertEquals(2, moves.size());
+		assertTrue(moves.contains(new Position(2, 3)));
+		assertTrue(moves.contains(new Position(3, 3)));
 	}
-
-	@Test
-	public void testWhitePawnAttackLR() {
+	
+	@Test public void testWhitePawnAttackLR() {
 		final ChessPawn pawn = addPiece(new Position(2, 2), ChessColor.WHITE);
-
+		
 		assertNull(board.setPieceAt(new Position(1, 3), new ChessRook(board, ChessColor.BLACK)));
 		assertNull(board.setPieceAt(new Position(3, 3), new ChessRook(board, ChessColor.BLACK)));
-		assertEquals(3, pawn.getAllMoves().size());
-		assertTrue(pawn.canMove(new Position(1, 3)));
-		assertTrue(pawn.canMove(new Position(2, 3)));
-		assertTrue(pawn.canMove(new Position(3, 3)));
-		assertNotNull(board.setPieceAt(new Position(1, 3), null));
-		assertNotNull(board.setPieceAt(new Position(3, 3), null));
+		
+		final Set<Position> moves = pawn.getStandardMoves();
+		assertEquals(3, moves.size());
+		assertTrue(moves.contains(new Position(1, 3)));
+		assertTrue(moves.contains(new Position(2, 3)));
+		assertTrue(moves.contains(new Position(3, 3)));
 	}
-
-	@Test
-	public void testWhitePawnBorder() {
+	
+	@Test public void testWhitePawnBorder() {
 		final ChessPawn pawn = addPiece(new Position(2, 6), ChessColor.WHITE);
-
-		assertEquals(0, pawn.getAllMoves().size());
+		
+		assertEquals(0, pawn.getStandardMoves().size());
 	}
-
-	@Test
-	public void testBlackPawnNormal() {
+	
+	@Test public void testBlackPawnNormal() {
 		final ChessPawn pawn = addPiece(new Position(2, 5), ChessColor.BLACK);
-
-		assertEquals(1, pawn.getAllMoves().size());
-		assertTrue(pawn.canMove(new Position(2, 4)));
+		final Set<Position> moves = pawn.getStandardMoves();
+		
+		assertEquals(1, moves.size());
+		assertTrue(moves.contains(new Position(2, 4)));
 	}
-
-	@Test
-	public void testBlackPawnTeamBlocked() {
+	
+	@Test public void testBlackPawnTeamBlocked() {
 		final ChessPawn pawn = addPiece(new Position(2, 5), ChessColor.BLACK);
-
+		
 		assertNull(board.setPieceAt(new Position(1, 4), new ChessRook(board, ChessColor.BLACK)));
 		assertNull(board.setPieceAt(new Position(2, 4), new ChessRook(board, ChessColor.BLACK)));
 		assertNull(board.setPieceAt(new Position(3, 4), new ChessRook(board, ChessColor.BLACK)));
-		assertEquals(0, pawn.getAllMoves().size());
-		assertNotNull(board.setPieceAt(new Position(2, 4), null));
+		
+		assertEquals(0, pawn.getStandardMoves().size());
 	}
-
-	@Test
-	public void testBlackPawnBlocked() {
+	
+	@Test public void testBlackPawnBlocked() {
 		final ChessPawn pawn = addPiece(new Position(2, 5), ChessColor.BLACK);
-
+		
 		assertNull(board.setPieceAt(new Position(2, 4), new ChessRook(board, ChessColor.WHITE)));
-		assertEquals(0, pawn.getAllMoves().size());
-		assertNotNull(board.setPieceAt(new Position(2, 4), null));
+		
+		assertEquals(0, pawn.getStandardMoves().size());
 	}
-
-	@Test
-	public void testBlackPawnAttackL() {
+	
+	@Test public void testBlackPawnAttackL() {
 		final ChessPawn pawn = addPiece(new Position(2, 5), ChessColor.BLACK);
-
+		
 		assertNull(board.setPieceAt(new Position(1, 4), new ChessRook(board, ChessColor.WHITE)));
-		assertEquals(2, pawn.getAllMoves().size());
-		assertTrue(pawn.canMove(new Position(2, 4)));
-		assertTrue(pawn.canMove(new Position(1, 4)));
-		assertNotNull(board.setPieceAt(new Position(1, 4), null));
+		
+		final Set<Position> moves = pawn.getStandardMoves();
+		assertEquals(2, moves.size());
+		assertTrue(moves.contains(new Position(2, 4)));
+		assertTrue(moves.contains(new Position(1, 4)));
 	}
-
-	@Test
-	public void testBlackPawnAttackR() {
+	
+	@Test public void testBlackPawnAttackR() {
 		final ChessPawn pawn = addPiece(new Position(2, 5), ChessColor.BLACK);
-
+		
 		assertNull(board.setPieceAt(new Position(3, 4), new ChessRook(board, ChessColor.WHITE)));
-		assertEquals(2, pawn.getAllMoves().size());
-		assertTrue(pawn.canMove(new Position(2, 4)));
-		assertTrue(pawn.canMove(new Position(3, 4)));
-		assertNotNull(board.setPieceAt(new Position(3, 4), null));
+		
+		final Set<Position> moves = pawn.getStandardMoves();
+		assertEquals(2, moves.size());
+		assertTrue(moves.contains(new Position(2, 4)));
+		assertTrue(moves.contains(new Position(3, 4)));
 	}
-
-	@Test
-	public void testBlackPawnAttackLR() {
+	
+	@Test public void testBlackPawnAttackLR() {
 		final ChessPawn pawn = addPiece(new Position(2, 5), ChessColor.BLACK);
-
+		
 		assertNull(board.setPieceAt(new Position(1, 4), new ChessRook(board, ChessColor.WHITE)));
 		assertNull(board.setPieceAt(new Position(3, 4), new ChessRook(board, ChessColor.WHITE)));
-		assertEquals(3, pawn.getAllMoves().size());
-		assertTrue(pawn.canMove(new Position(1, 4)));
-		assertTrue(pawn.canMove(new Position(2, 4)));
-		assertTrue(pawn.canMove(new Position(3, 4)));
-		assertNotNull(board.setPieceAt(new Position(1, 4), null));
-		assertNotNull(board.setPieceAt(new Position(3, 4), null));
+		
+		final Set<Position> moves = pawn.getStandardMoves();
+		assertEquals(3, moves.size());
+		assertTrue(moves.contains(new Position(1, 4)));
+		assertTrue(moves.contains(new Position(2, 4)));
+		assertTrue(moves.contains(new Position(3, 4)));
 	}
-
-	@Test
-	public void testBlackPawnBorder() {
+	
+	@Test public void testBlackPawnBorder() {
 		final ChessPawn pawn = addPiece(new Position(2, 1), ChessColor.BLACK);
-
-		assertEquals(0, pawn.getAllMoves().size());
+		
+		assertEquals(0, pawn.getStandardMoves().size());
 	}
-
+	
 }

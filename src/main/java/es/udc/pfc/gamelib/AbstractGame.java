@@ -20,29 +20,52 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.common.eventbus.EventBus;
+
 /**
  * Abstract game class
  * 
  * This class implements the common methods for all {@link Game} subclasses
  */
-public abstract class AbstractGame<G extends Game<G, P>, P extends Player<G, P>> implements Game<G, P> {
-
-	private final List<P> players;
-
+public abstract class AbstractGame<P extends Player> implements Game<P> {
+	
+	private final EventBus eventBus;
+	
+	protected final List<P> players;
+	protected Status status;
+	
 	protected AbstractGame() {
+		this.eventBus = new EventBus(this.getClass().getName());
 		this.players = new ArrayList<P>();
+		this.status = Status.WAITING_FOR_PLAYERS;
 	}
-
-	@Override
-	public final int getPlayerCount() {
+	
+	@Override public final Status getStatus() {
+		return status;
+	}
+	
+	/**
+	 * Adds a new listener to the game
+	 * 
+	 * @param listener
+	 *            The new listener
+	 */
+	public final void addListener(final Object listener) {
+		eventBus.register(listener);
+	}
+	
+	protected final void postEvent(final Object event) {
+		eventBus.post(event);
+	}
+	
+	@Override public final int getPlayerCount() {
 		return players.size();
 	}
-
-	@Override
-	public final List<P> getPlayers() {
+	
+	@Override public final List<P> getPlayers() {
 		return Collections.unmodifiableList(players);
 	}
-
+	
 	/**
 	 * Adds a new player to the game
 	 * 
@@ -51,17 +74,13 @@ public abstract class AbstractGame<G extends Game<G, P>, P extends Player<G, P>>
 	 * @return true if the player was added, false otherwise
 	 */
 	protected boolean addPlayer(final P player) {
-		// No room for more players
-		if (players.size() >= getMaxPlayerCount())
-			return false;
-
 		// Player is already playing, don't add it again
 		if (players.contains(player))
 			return false;
-
+		
 		return players.add(player);
 	}
-
+	
 	/**
 	 * Removes a player to the game
 	 * 
@@ -72,8 +91,7 @@ public abstract class AbstractGame<G extends Game<G, P>, P extends Player<G, P>>
 	protected boolean removePlayer(final P player) {
 		return players.remove(player);
 	}
-
-	@Override
-	public abstract String toString();
-
+	
+	@Override public abstract String toString();
+	
 }

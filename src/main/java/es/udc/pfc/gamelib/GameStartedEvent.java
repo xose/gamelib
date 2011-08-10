@@ -14,22 +14,11 @@
  * limitations under the License.
  */
 
-package es.udc.pfc.gamelib.chess;
+package es.udc.pfc.gamelib;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
-public class ChessColorTest {
+public class GameStartedEvent {
 	
-	@Test public void testOther() {
-		assertEquals(ChessColor.BLACK, ChessColor.WHITE.other());
-		assertEquals(ChessColor.WHITE, ChessColor.BLACK.other());
-	}
-	
-	@Test public void testToString() {
-		assertEquals("White", ChessColor.WHITE.toString());
-		assertEquals("Black", ChessColor.BLACK.toString());
+	public GameStartedEvent() {
 	}
 	
 }

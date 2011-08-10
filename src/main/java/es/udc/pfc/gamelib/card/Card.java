@@ -20,22 +20,23 @@ package es.udc.pfc.gamelib.card;
  * Represents a playing card
  */
 public interface Card<S extends Card.Suit> {
-
+	
 	public interface Suit {
+		// Empty interface
 	}
-
-	/**
-	 * Returns the rank of this card
-	 * 
-	 * @return the rank of this card
-	 */
-	int getRank();
-
+	
 	/**
 	 * Returns a String representing the suit of this card
 	 * 
 	 * @return the suit of this card
 	 */
 	S getSuit();
-
+	
+	/**
+	 * Returns the rank of this card
+	 * 
+	 * @return the rank of this card
+	 */
+	int getRank();
+	
 }

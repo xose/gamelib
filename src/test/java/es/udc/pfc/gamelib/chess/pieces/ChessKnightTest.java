@@ -20,6 +20,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Set;
+
 import org.junit.Test;
 
 import es.udc.pfc.gamelib.board.Position;
@@ -27,70 +29,81 @@ import es.udc.pfc.gamelib.chess.ChessColor;
 import es.udc.pfc.gamelib.chess.ChessPieceTest;
 
 public class ChessKnightTest extends ChessPieceTest {
-
-	@Override
-	protected ChessKnight addPiece(final Position position, final ChessColor color) {
+	
+	@Override protected ChessKnight addPiece(final Position position, final ChessColor color) {
 		final ChessKnight piece = new ChessKnight(board, color);
 		if (position != null) {
 			assertNull(board.setPieceAt(position, piece));
 		}
 		return piece;
 	}
-
-	@Test
-	public void testKnightToString() {
+	
+	@Test public void testKnightToString() {
 		assertEquals("N", addPiece(null, ChessColor.WHITE).toString());
 		assertEquals("n", addPiece(null, ChessColor.BLACK).toString());
 	}
-
-	@Test
-	public void testKnightNormal() {
+	
+	@Test public void testKnightNormal() {
 		final ChessKnight knight = addPiece(new Position(3, 3), ChessColor.WHITE);
-
-		assertEquals(8, knight.getAllMoves().size());
-		assertTrue(knight.canMove(new Position(4, 5)));
-		assertTrue(knight.canMove(new Position(5, 4)));
-		assertTrue(knight.canMove(new Position(5, 2)));
-		assertTrue(knight.canMove(new Position(4, 1)));
-		assertTrue(knight.canMove(new Position(2, 1)));
-		assertTrue(knight.canMove(new Position(1, 2)));
-		assertTrue(knight.canMove(new Position(1, 4)));
-		assertTrue(knight.canMove(new Position(2, 5)));
+		final Set<Position> moves = knight.getStandardMoves();
+		
+		assertEquals(8, moves.size());
+		assertTrue(moves.contains(new Position(4, 5)));
+		assertTrue(moves.contains(new Position(5, 4)));
+		assertTrue(moves.contains(new Position(5, 2)));
+		assertTrue(moves.contains(new Position(4, 1)));
+		assertTrue(moves.contains(new Position(2, 1)));
+		assertTrue(moves.contains(new Position(1, 2)));
+		assertTrue(moves.contains(new Position(1, 4)));
+		assertTrue(moves.contains(new Position(2, 5)));
 	}
-
-	@Test
-	public void testKnightCorners() {
+	
+	@Test public void testKnightCorners() {
 		ChessKnight knight = addPiece(new Position(1, 1), ChessColor.WHITE);
-
-		assertEquals(2, knight.getAllMoves().size());
-		assertTrue(knight.canMove(new Position(2, 3)));
-		assertTrue(knight.canMove(new Position(3, 2)));
-
+		Set<Position> moves = knight.getStandardMoves();
+		
+		assertEquals(2, moves.size());
+		assertTrue(moves.contains(new Position(2, 3)));
+		assertTrue(moves.contains(new Position(3, 2)));
+		
 		knight = addPiece(new Position(5, 6), ChessColor.WHITE);
-
-		assertEquals(2, knight.getAllMoves().size());
-		assertTrue(knight.canMove(new Position(3, 5)));
-		assertTrue(knight.canMove(new Position(4, 4)));
+		moves = knight.getStandardMoves();
+		
+		assertEquals(2, moves.size());
+		assertTrue(moves.contains(new Position(3, 5)));
+		assertTrue(moves.contains(new Position(4, 4)));
 	}
-
-	@Test
-	public void testKnightTeamBlocked() {
+	
+	@Test public void testKnightTeamBlocked() {
 		final ChessKnight knight = addPiece(new Position(3, 3), ChessColor.WHITE);
-
+		
 		assertNull(board.setPieceAt(new Position(5, 2), new ChessRook(board, ChessColor.WHITE)));
 		assertNull(board.setPieceAt(new Position(2, 1), new ChessRook(board, ChessColor.WHITE)));
-
-		assertEquals(6, knight.getAllMoves().size());
+		
+		final Set<Position> moves = knight.getStandardMoves();
+		assertEquals(6, moves.size());
+		assertTrue(moves.contains(new Position(4, 5)));
+		assertTrue(moves.contains(new Position(5, 4)));
+		assertTrue(moves.contains(new Position(4, 1)));
+		assertTrue(moves.contains(new Position(1, 2)));
+		assertTrue(moves.contains(new Position(1, 4)));
+		assertTrue(moves.contains(new Position(2, 5)));
 	}
-
-	@Test
-	public void testKnightAttack() {
+	
+	@Test public void testKnightAttack() {
 		final ChessKnight knight = addPiece(new Position(3, 3), ChessColor.WHITE);
-
+		
 		assertNull(board.setPieceAt(new Position(5, 2), new ChessRook(board, ChessColor.BLACK)));
 		assertNull(board.setPieceAt(new Position(2, 1), new ChessRook(board, ChessColor.BLACK)));
-
-		assertEquals(8, knight.getAllMoves().size());
+		
+		final Set<Position> moves = knight.getStandardMoves();
+		assertEquals(8, moves.size());
+		assertTrue(moves.contains(new Position(4, 5)));
+		assertTrue(moves.contains(new Position(5, 4)));
+		assertTrue(moves.contains(new Position(4, 1)));
+		assertTrue(moves.contains(new Position(1, 2)));
+		assertTrue(moves.contains(new Position(1, 4)));
+		assertTrue(moves.contains(new Position(2, 5)));
 	}
-
+	
 }

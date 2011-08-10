@@ -14,22 +14,20 @@
  * limitations under the License.
  */
 
-package es.udc.pfc.gamelib.chess;
+package es.udc.pfc.gamelib;
 
-import static org.junit.Assert.assertEquals;
+import static com.google.common.base.Preconditions.checkNotNull;
 
-import org.junit.Test;
-
-public class ChessColorTest {
+public class NewTurnEvent<P extends Player> {
 	
-	@Test public void testOther() {
-		assertEquals(ChessColor.BLACK, ChessColor.WHITE.other());
-		assertEquals(ChessColor.WHITE, ChessColor.BLACK.other());
+	public final P currentPlayer;
+	
+	public NewTurnEvent(final P currentPlayer) {
+		this.currentPlayer = checkNotNull(currentPlayer);
 	}
 	
-	@Test public void testToString() {
-		assertEquals("White", ChessColor.WHITE.toString());
-		assertEquals("Black", ChessColor.BLACK.toString());
+	public final P getCurrentPlayer() {
+		return currentPlayer;
 	}
 	
 }

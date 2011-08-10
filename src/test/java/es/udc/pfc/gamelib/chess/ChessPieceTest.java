@@ -27,52 +27,30 @@ import org.junit.Test;
 import es.udc.pfc.gamelib.board.Position;
 
 public abstract class ChessPieceTest {
-
+	
 	protected ChessBoard board;
-
+	
 	protected abstract ChessPiece addPiece(Position pos, ChessColor color);
-
-	@Before
-	public void setUp() throws Exception {
-		board = new ChessBoard() {
-			@Override
-			public int getNumberOfRows() {
-				return 6;
-			}
-
-			@Override
-			public int getNumberOfColumns() {
-				return 5;
-			}
-		};
+	
+	@Before public void setUp() throws Exception {
+		board = ChessBoard.fromString("5/5/5/5/5/5");
 	}
-
-	@Test
-	public void testGetPosition() {
+	
+	@Test public void testGetPosition() {
 		assertEquals(new Position(3, 3), addPiece(new Position(3, 3), ChessColor.BLACK).getPosition());
 		assertNull(addPiece(null, ChessColor.BLACK).getPosition());
 	}
-
-	@Test
-	public void testCanMove() {
-		final ChessPiece p = addPiece(new Position(3, 3), ChessColor.WHITE);
-
-		for (final Position pos : p.getAllMoves()) {
-			assertTrue(p.canMove(pos));
-		}
-	}
-
-	@Test
-	public void testEnemy() {
+	
+	@Test public void testEnemy() {
 		final ChessPiece p1 = addPiece(null, ChessColor.WHITE);
 		final ChessPiece p2 = addPiece(null, ChessColor.WHITE);
 		final ChessPiece p3 = addPiece(null, ChessColor.BLACK);
 		final ChessPiece p4 = addPiece(null, ChessColor.BLACK);
-
+		
 		assertTrue(p1.isEnemy(p3));
 		assertTrue(p4.isEnemy(p2));
 		assertFalse(p1.isEnemy(p2));
 		assertFalse(p3.isEnemy(p4));
 	}
-
+	
 }

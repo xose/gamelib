@@ -16,19 +16,21 @@
 
 package es.udc.pfc.gamelib.board;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import javax.annotation.Nullable;
+
+import com.google.common.collect.ImmutableSet;
 
 /**
  * Abstract piece class
  * 
  * This class implements the common methods for all {@link Piece} subclasses
  */
-public abstract class AbstractPiece<B extends Board<B, M, P>, M extends Movement<B, M, P>, P extends Piece<B, M, P>> implements Piece<B, M, P> {
-
-	private final B board;
-
+public abstract class AbstractPiece implements Piece {
+	
+	protected final AbstractBoard<?> board;
+	
 	/**
 	 * Represents the directions that most pieces use to move
 	 */
@@ -49,42 +51,32 @@ public abstract class AbstractPiece<B extends Board<B, M, P>, M extends Movement
 		SE(1, -1),
 		/** South-West */
 		SW(-1, -1);
-
+		
 		private final int i;
 		private final int j;
-
+		
 		private Direction(final int i, final int j) {
 			this.i = i;
 			this.j = j;
 		}
-
+		
 		public final int i() {
 			return i;
 		}
-
+		
 		public final int j() {
 			return j;
 		}
 	}
-
-	protected AbstractPiece(final B board) {
-		if (board == null)
-			throw new IllegalArgumentException("board cannot be null");
-
-		this.board = board;
+	
+	protected AbstractPiece(final AbstractBoard<?> board) {
+		this.board = checkNotNull(board);
 	}
-
-	@Override
-	public final B getBoard() {
-		return this.board;
+	
+	@Override @Nullable public final Position getPosition() {
+		return board.getPositionFor(this);
 	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public final Position getPosition() {
-		return board.getPositionFor((P) this);
-	}
-
+	
 	/**
 	 * Returns all the possible moves to a given direction
 	 * 
@@ -92,29 +84,25 @@ public abstract class AbstractPiece<B extends Board<B, M, P>, M extends Movement
 	 *            the direction to get the piece moves
 	 * @return a set of positions the piece can move to
 	 */
-	protected final Set<Position> getMovesTo(final Direction dir) {
-		final HashSet<Position> moves = new HashSet<Position>();
-
+	protected final ImmutableSet<Position> getMovesTo(final Direction dir) {
+		checkNotNull(dir);
+		
+		final ImmutableSet.Builder<Position> moves = ImmutableSet.builder();
+		
 		Position pos = getPosition().relative(dir.i(), dir.j());
-		while (board.isValidPosition(pos) && (!board.isPieceAt(pos) || isEnemy(getBoard().getPieceAt(pos)))) {
+		while (board.isValidPosition(pos) && (!board.isPieceAt(pos) || isEnemy(board.getPieceAt(pos)))) {
 			moves.add(pos);
-
+			
 			if (board.isPieceAt(pos)) {
 				break;
 			}
-
+			
 			pos = pos.relative(dir.i(), dir.j());
 		}
-
-		return Collections.unmodifiableSet(moves);
+		
+		return moves.build();
 	}
-
-	@Override
-	public boolean canMove(final Position to) {
-		return getAllMoves().contains(to);
-	}
-
-	@Override
-	public abstract String toString();
-
+	
+	@Override public abstract String toString();
+	
 }

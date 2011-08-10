@@ -18,44 +18,43 @@ package es.udc.pfc.gamelib;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 /**
  * Represents a game
  */
-public interface Game<G extends Game<G, P>, P extends Player<G, P>> {
-
+public interface Game<P extends Player> {
+	
+	public enum Status {
+		WAITING_FOR_PLAYERS, STARTED, FINISHED;
+	}
+	
 	/**
-	 * Returns the minimum number of players that can play this game
+	 * Returns the status of the game
 	 * 
-	 * @return minimum number of players allowed to play
+	 * @return the status of the game
 	 */
-	public int getMinPlayerCount();
-
-	/**
-	 * Returns the maximum number of players that can play this game
-	 * 
-	 * @return maximum number of players allowed to play
-	 */
-	public int getMaxPlayerCount();
-
+	public Status getStatus();
+	
 	/**
 	 * Returns the number of players currently playing
 	 * 
 	 * @return the number of players
 	 */
 	public int getPlayerCount();
-
+	
 	/**
 	 * Returns an unmodifiable list of all the players in the game
 	 * 
 	 * @return a list of players
 	 */
 	public List<P> getPlayers();
-
+	
 	/**
 	 * Returns the current player
 	 * 
 	 * @return the current player
 	 */
-	public P getCurrentPlayer();
-
+	@Nullable public P getCurrentPlayer();
+	
 }

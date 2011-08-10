@@ -16,65 +16,57 @@
 
 package es.udc.pfc.gamelib.card;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.base.Objects;
+
 /**
  * Abstract card class
  * 
  * This class implements the common methods for all {@link Card} subclasses
  */
 public abstract class AbstractCard<S extends Card.Suit> implements Card<S> {
-
-	private final S suit;
-	private final int rank;
-
+	
+	protected final S suit;
+	protected final int rank;
+	
 	protected AbstractCard(final S suit, final int rank) {
-		if (suit == null)
-			throw new IllegalArgumentException("suit cannot be null");
-
-		if (rank <= 0 || rank > getMaxRank())
-			throw new IllegalArgumentException("rank out of range");
-
+		this.suit = checkNotNull(suit);
 		this.rank = rank;
-		this.suit = suit;
+		
+		checkArgument(rank > 0 && rank <= getMaxRank());
 	}
-
+	
 	/**
 	 * Returns the maximum possible rank for this kind of cards
 	 * 
 	 * @return the max rank for the card
 	 */
 	protected abstract int getMaxRank();
-
-	@Override
-	public final int getRank() {
-		return rank;
-	}
-
-	@Override
-	public final S getSuit() {
+	
+	@Override public final S getSuit() {
 		return suit;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + rank;
-		result = prime * result + (suit == null ? 0 : suit.hashCode());
-		return result;
+	
+	@Override public final int getRank() {
+		return rank;
 	}
-
-	@Override
-	public boolean equals(final Object obj) {
+	
+	@Override public int hashCode() {
+		return Objects.hashCode(suit, Integer.valueOf(rank));
+	}
+	
+	@Override public boolean equals(final Object obj) {
 		if (getClass() == obj.getClass()) {
-			final AbstractCard<? extends Suit> other = (AbstractCard<?>) obj;
-
+			final AbstractCard<?> other = (AbstractCard<?>) obj;
+			
 			return this.suit == other.suit && this.rank == other.rank;
 		}
-
+		
 		return super.equals(obj);
 	}
-
-	@Override
-	public abstract String toString();
-
+	
+	@Override public abstract String toString();
+	
 }

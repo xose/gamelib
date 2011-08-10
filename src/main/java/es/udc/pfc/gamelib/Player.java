@@ -19,20 +19,20 @@ package es.udc.pfc.gamelib;
 /**
  * Represents a player
  */
-public interface Player<G extends Game<G, P>, P extends Player<G, P>> {
-
+public interface Player {
+	
 	/**
 	 * Gets the name of the player
 	 * 
 	 * @return the name of this player
 	 */
 	public String getName();
-
+	
 	/**
 	 * Checks if it's this player's turn in the game
 	 * 
 	 * @return true if it's this Player's turn, false otherwise
 	 */
 	public boolean isCurrentTurn();
-
+	
 }

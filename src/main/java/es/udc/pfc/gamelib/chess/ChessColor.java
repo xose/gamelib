@@ -21,10 +21,10 @@ package es.udc.pfc.gamelib.chess;
  */
 public enum ChessColor {
 	WHITE, BLACK;
-
+	
 	private ChessColor() {
 	}
-
+	
 	/**
 	 * Returns the opposite color
 	 * 
@@ -33,9 +33,8 @@ public enum ChessColor {
 	public final ChessColor other() {
 		return this == BLACK ? WHITE : BLACK;
 	}
-
-	@Override
-	public final String toString() {
+	
+	@Override public final String toString() {
 		return this == WHITE ? "White" : "Black";
 	}
 }

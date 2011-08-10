@@ -14,22 +14,26 @@
  * limitations under the License.
  */
 
-package es.udc.pfc.gamelib.chess;
+package es.udc.pfc.gamelib.board;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
-public class ChessColorTest {
+public final class InvalidMovementException extends Exception {
 	
-	@Test public void testOther() {
-		assertEquals(ChessColor.BLACK, ChessColor.WHITE.other());
-		assertEquals(ChessColor.WHITE, ChessColor.BLACK.other());
+	private static final long serialVersionUID = 1L;
+	
+	private final Movement movement;
+	
+	public InvalidMovementException(final Position from, final Position to) {
+		this(new SimpleMovement(from, to));
 	}
 	
-	@Test public void testToString() {
-		assertEquals("White", ChessColor.WHITE.toString());
-		assertEquals("Black", ChessColor.BLACK.toString());
+	public InvalidMovementException(final Movement movement) {
+		super(movement.toString());
+		
+		this.movement = movement;
+	}
+	
+	public final Movement getMovement() {
+		return movement;
 	}
 	
 }

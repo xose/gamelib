@@ -16,37 +16,31 @@
 
 package es.udc.pfc.gamelib;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Abstract player class
  * 
  * This class implements the common methods for all {@link Player} subclasses
  */
-public abstract class AbstractPlayer<G extends Game<G, P>, P extends Player<G, P>> implements Player<G, P> {
-
-	private final G game;
-	private final String name;
-
-	protected AbstractPlayer(final G game, final String name) {
-		if (game == null)
-			throw new IllegalArgumentException("game cannot be null");
-		if (name == null)
-			throw new IllegalArgumentException("name cannot be null");
-
-		this.game = game;
-		this.name = name;
+public abstract class AbstractPlayer implements Player {
+	
+	protected final Game<?> game;
+	protected final String name;
+	
+	protected AbstractPlayer(final Game<?> game, final String name) {
+		this.game = checkNotNull(game);
+		this.name = checkNotNull(name);
 	}
-
-	@Override
-	public final String getName() {
+	
+	@Override public final String getName() {
 		return name;
 	}
-
-	@Override
-	public boolean isCurrentTurn() {
-		return game.getCurrentPlayer().equals(this);
+	
+	@Override public final boolean isCurrentTurn() {
+		return equals(game.getCurrentPlayer());
 	}
-
-	@Override
-	public abstract String toString();
-
+	
+	@Override public abstract String toString();
+	
 }
