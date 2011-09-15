@@ -9,7 +9,7 @@ import es.udc.pfc.gamelib.PlayerAddedEvent;
 public class ChessEventsTest {
 	
 	@Test public void testPlayerAdded() {
-		final MiniChessGame game = new MiniChessGame();
+		final ChessGame game = new ChessGame(ChessBoard.fromString(ChessBoard.CHESSBOARD_MINI), new MiniChessRules());
 		game.addListener(this);
 		
 		game.addPlayer("test 1");

@@ -108,7 +108,7 @@ public final class Position {
 		if (column > 0 && column <= 8 && row > 0 && row <= 8)
 			return Character.toString((char) ('a' + column - 1)) + row;
 		
-		return String.format("[%d,%d]", Integer.valueOf(column), Integer.valueOf(row));
+		return "[" + Integer.valueOf(column) + "," + Integer.valueOf(row) + "]";
 	}
 	
 }

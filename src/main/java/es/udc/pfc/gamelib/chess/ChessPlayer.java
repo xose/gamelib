@@ -36,7 +36,7 @@ public final class ChessPlayer extends AbstractPlayer {
 	 * @param color
 	 *            the color for this player
 	 */
-	protected ChessPlayer(final AbstractChessGame game, final String name, final ChessColor color) {
+	protected ChessPlayer(final ChessGame game, final String name, final ChessColor color) {
 		super(game, name);
 		
 		this.color = checkNotNull(color);

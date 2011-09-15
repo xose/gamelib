@@ -19,6 +19,8 @@ package es.udc.pfc.gamelib.chess;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.EnumSet;
+
 import javax.annotation.Nullable;
 
 import es.udc.pfc.gamelib.board.AbstractMovement;
@@ -31,24 +33,19 @@ import es.udc.pfc.gamelib.chess.pieces.ChessPawn;
 public final class ChessMovement extends AbstractMovement {
 	
 	protected enum Special {
-		NONE, CHECK, MATE;
+		CHECK, MATE, CASTLE_K, CASTLE_Q;
 	}
 	
 	private final ChessPiece sourcePiece;
 	@Nullable private final ChessPiece attackedPiece;
-	private final Special special;
+	private final EnumSet<Special> special;
 	
 	protected ChessMovement(final Position from, final Position to, final ChessPiece sourcePiece, @Nullable final ChessPiece attackedPiece) {
-		this(from, to, sourcePiece, attackedPiece, Special.NONE);
-	}
-	
-	protected ChessMovement(final Position from, final Position to, final ChessPiece sourcePiece, @Nullable final ChessPiece attackedPiece,
-			final Special special) {
 		super(from, to);
 		
 		this.sourcePiece = checkNotNull(sourcePiece);
 		this.attackedPiece = attackedPiece;
-		this.special = checkNotNull(special);
+		this.special = EnumSet.noneOf(Special.class);
 		
 		if (attackedPiece != null) {
 			checkArgument(sourcePiece.isEnemy(attackedPiece));
@@ -73,15 +70,20 @@ public final class ChessMovement extends AbstractMovement {
 		return attackedPiece;
 	}
 	
-	public final boolean isCheck() {
-		return special == Special.CHECK || special == Special.MATE;
+	protected final boolean setSpecial(Special special) {
+		return this.special.add(special);
 	}
 	
-	public final boolean isMate() {
-		return special == Special.MATE;
+	public final boolean is(Special special) {
+		return this.special.contains(special);
 	}
 	
 	@Override public final String toString() {
+		if (is(Special.CASTLE_K))
+			return "O-O";
+		if (is(Special.CASTLE_Q))
+			return "O-O-O";
+		
 		final StringBuilder builder = new StringBuilder();
 		
 		if (!(sourcePiece instanceof ChessPawn)) {
@@ -90,10 +92,10 @@ public final class ChessMovement extends AbstractMovement {
 		
 		builder.append(from).append(attackedPiece != null ? 'x' : '-').append(to);
 		
-		if (isCheck()) {
+		if (is(Special.CHECK)) {
 			builder.append('+');
 		}
-		if (isMate()) {
+		if (is(Special.MATE)) {
 			builder.append('+');
 		}
 		

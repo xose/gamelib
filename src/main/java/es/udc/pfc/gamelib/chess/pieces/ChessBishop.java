@@ -26,7 +26,9 @@ import es.udc.pfc.gamelib.chess.ChessPiece;
 /**
  * Represents a chess Bishop
  */
-public class ChessBishop extends ChessPiece {
+public final class ChessBishop extends ChessPiece {
+	
+	private final int[][] special = { { 0, +1 }, { 0, -1 }, { +1, 0 }, { -1, 0 } };
 	
 	public ChessBishop(final ChessBoard board, final ChessColor color) {
 		super(board, color, 'B');
@@ -43,6 +45,22 @@ public class ChessBishop extends ChessPiece {
 		moves.addAll(getMovesTo(Direction.NW));
 		moves.addAll(getMovesTo(Direction.SE));
 		moves.addAll(getMovesTo(Direction.SW));
+		
+		return moves.build();
+	}
+
+	public final ImmutableSet<Position> getMiniMoves() {
+		final ImmutableSet.Builder<Position> moves = ImmutableSet.builder();
+		
+		moves.addAll(getStandardMoves());
+		
+		for (final int[] element : special) {
+			final Position pos = getPosition().relative(element[0], element[1]);
+			
+			if (board.isValidPosition(pos) && !board.isPieceAt(pos)) {
+				moves.add(pos);
+			}
+		}
 		
 		return moves.build();
 	}

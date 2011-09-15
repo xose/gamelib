@@ -28,7 +28,7 @@ import es.udc.pfc.gamelib.GameTest;
 import es.udc.pfc.gamelib.board.InvalidMovementException;
 import es.udc.pfc.gamelib.board.Position;
 
-public class ChessGameTest extends GameTest<AbstractChessGame, ChessPlayer> {
+public class ChessGameTest extends GameTest<ChessGame, ChessPlayer> {
 	
 	@Override protected int expectedMinPlayers() {
 		return 2;
@@ -38,22 +38,12 @@ public class ChessGameTest extends GameTest<AbstractChessGame, ChessPlayer> {
 		return 2;
 	}
 	
-	@Override protected AbstractChessGame getNewGame() {
-		return new MiniChessGame();
+	@Override protected ChessGame getNewGame() {
+		return new ChessGame(ChessBoard.fromString(ChessBoard.CHESSBOARD_MINI), new MiniChessRules());
 	}
 	
 	@Override protected boolean addNewPlayer(final String name) {
 		return game.addPlayer(name);
-	}
-	
-	@Test public void testCurrentTurn() {
-		assertNull(game.getCurrentTurn());
-		assertTrue(game.addPlayer("white player"));
-		assertNull(game.getCurrentTurn());
-		assertTrue(game.addPlayer("black player"));
-		assertNotNull(game.getCurrentTurn());
-		
-		assertEquals(ChessColor.WHITE, game.getCurrentTurn());
 	}
 	
 	@Test public void testChessCurrentPlayer() {
@@ -70,7 +60,7 @@ public class ChessGameTest extends GameTest<AbstractChessGame, ChessPlayer> {
 	@Test public void testMovement() {
 		testAddPlayers();
 		
-		assertEquals(ChessColor.WHITE, game.getCurrentTurn());
+		assertEquals(ChessColor.WHITE, game.getCurrentPlayer().getColor());
 		
 		try {
 			game.movePiece(new Position(4, 2), new Position(4, 3));

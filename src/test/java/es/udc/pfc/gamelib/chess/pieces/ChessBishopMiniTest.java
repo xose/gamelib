@@ -31,8 +31,8 @@ import es.udc.pfc.gamelib.chess.ChessPieceTest;
 
 public class ChessBishopMiniTest extends ChessPieceTest {
 	
-	@Override protected ChessBishopMini addPiece(final Position position, final ChessColor color) {
-		final ChessBishopMini piece = new ChessBishopMini(board, color);
+	@Override protected ChessBishop addPiece(final Position position, final ChessColor color) {
+		final ChessBishop piece = new ChessBishop(board, color);
 		if (position != null) {
 			assertNull(board.setPieceAt(position, piece));
 		}
@@ -40,13 +40,13 @@ public class ChessBishopMiniTest extends ChessPieceTest {
 	}
 	
 	@Test public void testBishopMiniToString() {
-		assertEquals("V", addPiece(null, ChessColor.WHITE).toString());
-		assertEquals("v", addPiece(null, ChessColor.BLACK).toString());
+		assertEquals("B", addPiece(null, ChessColor.WHITE).toString());
+		assertEquals("b", addPiece(null, ChessColor.BLACK).toString());
 	}
 	
 	@Test public void testBishopMiniNormal() {
 		final ChessBishop bishop = addPiece(new Position(3, 3), ChessColor.WHITE);
-		final Set<Position> moves = bishop.getStandardMoves();
+		final Set<Position> moves = bishop.getMiniMoves();
 		
 		assertEquals(12, moves.size());
 		assertTrue(moves.contains(new Position(4, 4)));
@@ -77,7 +77,7 @@ public class ChessBishopMiniTest extends ChessPieceTest {
 		assertNull(board.setPieceAt(new Position(3, 2), new ChessRook(board, ChessColor.WHITE)));
 		assertNull(board.setPieceAt(new Position(2, 3), new ChessRook(board, ChessColor.WHITE)));
 		
-		final Set<Position> moves = bishop.getStandardMoves();
+		final Set<Position> moves = bishop.getMiniMoves();
 		assertEquals(3, moves.size());
 		assertTrue(moves.contains(new Position(4, 4)));
 		assertTrue(moves.contains(new Position(2, 2)));
@@ -97,7 +97,7 @@ public class ChessBishopMiniTest extends ChessPieceTest {
 		assertNull(board.setPieceAt(new Position(3, 2), new ChessRook(board, ChessColor.BLACK)));
 		assertNull(board.setPieceAt(new Position(2, 3), new ChessRook(board, ChessColor.BLACK)));
 		
-		final Set<Position> moves = bishop.getStandardMoves();
+		final Set<Position> moves = bishop.getMiniMoves();
 		assertEquals(7, moves.size());
 		assertTrue(moves.contains(new Position(4, 4)));
 		assertTrue(moves.contains(new Position(5, 5)));

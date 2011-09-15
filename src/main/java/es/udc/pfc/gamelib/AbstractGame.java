@@ -44,12 +44,7 @@ public abstract class AbstractGame<P extends Player> implements Game<P> {
 		return status;
 	}
 	
-	/**
-	 * Adds a new listener to the game
-	 * 
-	 * @param listener
-	 *            The new listener
-	 */
+	@Override
 	public final void addListener(final Object listener) {
 		eventBus.register(listener);
 	}

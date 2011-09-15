@@ -81,15 +81,7 @@ public abstract class AbstractBoard<P extends Piece> implements Board<P> {
 		return pieces.put(position, piece);
 	}
 	
-	/**
-	 * Gets the position for a given {@link Piece} in the board
-	 * 
-	 * @param piece
-	 *            the piece to get the position for
-	 * @return the position of the piece, or null if the piece is not in the
-	 *         board
-	 */
-	@Nullable protected final Position getPositionFor(final Piece piece) {
+	@Override @Nullable public final Position getPositionFor(final Piece piece) {
 		checkNotNull(piece);
 		
 		for (final Entry<Position, P> entry : pieces.entrySet()) {

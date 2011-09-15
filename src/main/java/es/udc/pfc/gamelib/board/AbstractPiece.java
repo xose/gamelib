@@ -29,7 +29,7 @@ import com.google.common.collect.ImmutableSet;
  */
 public abstract class AbstractPiece implements Piece {
 	
-	protected final AbstractBoard<?> board;
+	protected final Board<?> board;
 	
 	/**
 	 * Represents the directions that most pieces use to move
@@ -69,7 +69,7 @@ public abstract class AbstractPiece implements Piece {
 		}
 	}
 	
-	protected AbstractPiece(final AbstractBoard<?> board) {
+	protected AbstractPiece(final Board<?> board) {
 		this.board = checkNotNull(board);
 	}
 	

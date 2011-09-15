@@ -30,6 +30,14 @@ public interface Game<P extends Player> {
 	}
 	
 	/**
+	 * Adds a new listener to the game
+	 * 
+	 * @param listener
+	 *            The new listener
+	 */
+	public void addListener(final Object listener);
+	
+	/**
 	 * Returns the status of the game
 	 * 
 	 * @return the status of the game

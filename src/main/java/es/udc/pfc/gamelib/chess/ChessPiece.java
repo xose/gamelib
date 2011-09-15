@@ -25,7 +25,6 @@ import es.udc.pfc.gamelib.board.AbstractPiece;
 import es.udc.pfc.gamelib.board.Piece;
 import es.udc.pfc.gamelib.board.Position;
 import es.udc.pfc.gamelib.chess.pieces.ChessBishop;
-import es.udc.pfc.gamelib.chess.pieces.ChessBishopMini;
 import es.udc.pfc.gamelib.chess.pieces.ChessKing;
 import es.udc.pfc.gamelib.chess.pieces.ChessKnight;
 import es.udc.pfc.gamelib.chess.pieces.ChessPawn;
@@ -89,8 +88,6 @@ public abstract class ChessPiece extends AbstractPiece {
 			return new ChessQueen(board, color);
 		case 'B':
 			return new ChessBishop(board, color);
-		case 'V':
-			return new ChessBishopMini(board, color);
 		case 'N':
 			return new ChessKnight(board, color);
 		case 'R':

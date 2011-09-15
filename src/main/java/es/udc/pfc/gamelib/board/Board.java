@@ -80,6 +80,16 @@ public interface Board<P extends Piece> {
 	@Nullable public P setPieceAt(final Position position, final P piece);
 	
 	/**
+	 * Gets the position for a given {@link Piece} in the board
+	 * 
+	 * @param piece
+	 *            the piece to get the position for
+	 * @return the position of the piece, or null if the piece is not in the
+	 *         board
+	 */
+	@Nullable public Position getPositionFor(final Piece piece);
+	
+	/**
 	 * Returns all the pieces for this board
 	 * 
 	 * @return an unmodifiable collection of all the pieces in the board

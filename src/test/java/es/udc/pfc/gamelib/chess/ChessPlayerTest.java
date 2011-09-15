@@ -7,10 +7,10 @@ import org.junit.Test;
 
 public class ChessPlayerTest {
 	
-	private MiniChessGame game;
+	private ChessGame game;
 	
 	@Before public void setUp() throws Exception {
-		game = new MiniChessGame();
+		game = new ChessGame(ChessBoard.fromString(ChessBoard.CHESSBOARD_MINI), new MiniChessRules());
 	}
 	
 	@Test public void testConstructor() {
