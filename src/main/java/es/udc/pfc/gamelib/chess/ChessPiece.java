@@ -19,6 +19,8 @@ package es.udc.pfc.gamelib.chess;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.Ascii;
+import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableSet;
 
 import es.udc.pfc.gamelib.board.AbstractPiece;
@@ -32,7 +34,7 @@ import es.udc.pfc.gamelib.chess.pieces.ChessQueen;
 import es.udc.pfc.gamelib.chess.pieces.ChessRook;
 
 /**
- * Represents a chess piece
+ * Represents a chess piece.
  */
 public abstract class ChessPiece extends AbstractPiece {
 	
@@ -45,11 +47,11 @@ public abstract class ChessPiece extends AbstractPiece {
 		this.color = checkNotNull(color);
 		this.notation = notation;
 		
-		checkArgument(Character.isUpperCase(notation));
+		checkArgument(Ascii.isUpperCase(notation));
 	}
 	
 	/**
-	 * Returns the color of this piece
+	 * Returns the color of this piece.
 	 * 
 	 * @return the color of this piece
 	 */
@@ -58,7 +60,7 @@ public abstract class ChessPiece extends AbstractPiece {
 	}
 	
 	/**
-	 * Returns a set of all standard movements for this piece
+	 * Returns a set of all standard movements for this piece.
 	 * 
 	 * @return an unmodifiable set of movements for this piece
 	 */
@@ -70,13 +72,20 @@ public abstract class ChessPiece extends AbstractPiece {
 		if (piece instanceof ChessPiece) {
 			final ChessPiece other = (ChessPiece) piece;
 			
-			return board == other.board && color != other.color;
+			return color != other.color;
 		}
 		
 		return false;
 	}
 	
-	public static final ChessPiece fromString(final ChessBoard board, final char input) {
+	/**
+	 * Returns a piece from the string representation.
+	 * 
+	 * @param board the board that will hold this piece
+	 * @param input the piece representation
+	 * @return a new piece
+	 */
+	protected static final ChessPiece fromString(final ChessBoard board, final char input) {
 		checkNotNull(board);
 		
 		final ChessColor color = Character.isUpperCase(input) ? ChessColor.WHITE : ChessColor.BLACK;
@@ -97,6 +106,22 @@ public abstract class ChessPiece extends AbstractPiece {
 		default:
 			throw new IllegalArgumentException("Unknown chess piece " + input);
 		}
+	}
+	
+	@Override
+	public final int hashCode() {
+		return Objects.hashCode(Character.valueOf(notation), color);
+	}
+	
+	@Override
+	public final boolean equals(final Object obj) {
+		if (getClass() == obj.getClass()) {
+			final ChessPiece other = (ChessPiece) obj;
+			
+			return notation == other.notation && color == other.color;
+		}
+		
+		return false;
 	}
 	
 	@Override public final String toString() {

@@ -23,16 +23,16 @@ import javax.annotation.Nullable;
 import com.google.common.collect.ImmutableSet;
 
 /**
- * Abstract piece class
+ * Abstract piece class.
  * 
- * This class implements the common methods for all {@link Piece} subclasses
+ * This class implements the common methods for all {@link Piece} subclasses.
  */
 public abstract class AbstractPiece implements Piece {
 	
 	protected final Board<?> board;
 	
 	/**
-	 * Represents the directions that most pieces use to move
+	 * Represents the directions that most pieces use to move.
 	 */
 	protected enum Direction {
 		/** North */
@@ -60,11 +60,11 @@ public abstract class AbstractPiece implements Piece {
 			this.j = j;
 		}
 		
-		public final int i() {
+		protected final int i() {
 			return i;
 		}
 		
-		public final int j() {
+		protected final int j() {
 			return j;
 		}
 	}
@@ -78,7 +78,7 @@ public abstract class AbstractPiece implements Piece {
 	}
 	
 	/**
-	 * Returns all the possible moves to a given direction
+	 * Returns all the possible moves to a given direction.
 	 * 
 	 * @param dir
 	 *            the direction to get the piece moves
@@ -102,6 +102,10 @@ public abstract class AbstractPiece implements Piece {
 		
 		return moves.build();
 	}
+	
+	@Override public abstract int hashCode();
+	
+	@Override public abstract boolean equals(Object obj);
 	
 	@Override public abstract String toString();
 	

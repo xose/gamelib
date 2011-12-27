@@ -15,7 +15,7 @@
  */
 
 /**
- * Contains all the chess piece classes
+ * Contains all the chess piece classes.
  */
 package es.udc.pfc.gamelib.chess.pieces;
 

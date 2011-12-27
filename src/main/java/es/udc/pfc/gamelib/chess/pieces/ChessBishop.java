@@ -24,7 +24,7 @@ import es.udc.pfc.gamelib.chess.ChessColor;
 import es.udc.pfc.gamelib.chess.ChessPiece;
 
 /**
- * Represents a chess Bishop
+ * Represents a chess Bishop.
  */
 public final class ChessBishop extends ChessPiece {
 	

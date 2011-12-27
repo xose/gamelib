@@ -21,27 +21,44 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.annotation.Nullable;
 
+import com.google.common.base.Objects;
+import com.google.common.collect.Maps;
+
 /**
- * Abstract board class
+ * Abstract board class.
  * 
- * This class implements the common methods for all {@link Board} subclasses
+ * This class implements the common methods for all {@link Board} subclasses.
+ * 
+ * @param <P> the piece type for this board
  */
 public abstract class AbstractBoard<P extends Piece> implements Board<P> {
 	
 	protected final Map<Position, P> pieces;
+	protected final int rows, cols;
 	
-	protected AbstractBoard() {
-		this.pieces = new HashMap<Position, P>();
+	protected AbstractBoard(final int rows, final int cols) {
+		checkArgument(rows > 0);
+		checkArgument(cols > 0);
+		
+		this.pieces = Maps.newHashMap();
+		this.rows = rows;
+		this.cols = cols;
+	}
+	
+	@Override public final int getNumberOfRows() {
+		return rows;
+	}
+
+	@Override public final int getNumberOfColumns() {
+		return cols;
 	}
 	
 	/**
-	 * Checks if the given position is inside the board bounds
+	 * Checks if the given position is inside the board bounds.
 	 * 
 	 * @param position
 	 *            the {@link Position} to test
@@ -53,7 +70,7 @@ public abstract class AbstractBoard<P extends Piece> implements Board<P> {
 		final int col = position.getColumn();
 		final int row = position.getRow();
 		
-		return col > 0 && col <= getNumberOfColumns() && row > 0 && row <= getNumberOfRows();
+		return col > 0 && col <= cols && row > 0 && row <= rows;
 	}
 	
 	@Override public boolean isValidPosition(final Position position) {
@@ -84,7 +101,10 @@ public abstract class AbstractBoard<P extends Piece> implements Board<P> {
 	@Override @Nullable public final Position getPositionFor(final Piece piece) {
 		checkNotNull(piece);
 		
-		for (final Entry<Position, P> entry : pieces.entrySet()) {
+		if (!pieces.containsValue(piece))
+			return null;
+		
+		for (final Map.Entry<Position, P> entry : pieces.entrySet()) {
 			if (piece == entry.getValue())
 				return entry.getKey();
 		}
@@ -96,13 +116,29 @@ public abstract class AbstractBoard<P extends Piece> implements Board<P> {
 		return Collections.unmodifiableCollection(pieces.values());
 	}
 	
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(getClass(), Integer.valueOf(rows), Integer.valueOf(cols), pieces);
+	}
+	
+	@Override
+	public boolean equals(final Object obj) {
+		if (obj instanceof AbstractBoard) {
+			final AbstractBoard<?> other = (AbstractBoard<?>) obj;
+			
+			return getClass() == other.getClass() && rows == other.rows && cols == other.cols && pieces.equals(other.pieces);
+		}
+		
+		return false;
+	}
+	
 	@Override public final String toString() {
 		final StringBuilder fen = new StringBuilder();
 		
-		for (int row = getNumberOfRows(); row >= 1; row--) {
+		for (int row = rows; row >= 1; row--) {
 			int empty = 0;
 			
-			for (int col = 1; col <= getNumberOfColumns(); col++) {
+			for (int col = 1; col <= cols; col++) {
 				final P piece = pieces.get(new Position(col, row));
 				if (piece == null) {
 					empty++;

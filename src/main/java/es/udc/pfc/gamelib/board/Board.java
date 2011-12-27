@@ -21,54 +21,56 @@ import java.util.Collection;
 import javax.annotation.Nullable;
 
 /**
- * Represents a square gaming board
+ * Represents a square gaming board.
+ * 
+ * @param <P> the piece type for this board
  */
 public interface Board<P extends Piece> {
 	
 	/**
-	 * Returns the number of columns in this board
+	 * Returns the number of columns in this board.
 	 * 
 	 * @return the number of columns in this board
 	 */
-	public int getNumberOfColumns();
+	int getNumberOfColumns();
 	
 	/**
-	 * Returns the number of rows in this board
+	 * Returns the number of rows in this board.
 	 * 
 	 * @return the number of rows in this board
 	 */
-	public int getNumberOfRows();
+	int getNumberOfRows();
 	
 	/**
-	 * Checks if {@code position} is a valid board position
+	 * Checks if {@code position} is a valid board position.
 	 * 
 	 * @param position
 	 *            the {@link Position} to test
 	 * @return true if the position is valid, false otherwise
 	 */
-	public boolean isValidPosition(final Position position);
+	boolean isValidPosition(Position position);
 	
 	/**
-	 * Checks if there is a piece in {@code position}
+	 * Checks if there is a piece in {@code position}.
 	 * 
 	 * @param position
 	 *            the {@link Position} to test
 	 * @return true if there is a piece, false otherwise
 	 */
-	public boolean isPieceAt(final Position position);
+	boolean isPieceAt(Position position);
 	
 	/**
-	 * Gets the piece in {@code position}
+	 * Gets the piece in {@code position}.
 	 * 
 	 * @param position
 	 *            the {@link Position} to get the piece
 	 * @return the piece at the given position, {@code null} if there is no
 	 *         piece
 	 */
-	@Nullable public P getPieceAt(final Position position);
+	@Nullable P getPieceAt(Position position);
 	
 	/**
-	 * Sets the piece in {@code position} to a new piece
+	 * Sets the piece in {@code position} to a new piece.
 	 * 
 	 * @param position
 	 *            the {@link Position} to get the piece
@@ -77,23 +79,23 @@ public interface Board<P extends Piece> {
 	 * @return the piece that was at the given position, {@code null} if there
 	 *         was no piece
 	 */
-	@Nullable public P setPieceAt(final Position position, final P piece);
+	@Nullable P setPieceAt(Position position, @Nullable P piece);
 	
 	/**
-	 * Gets the position for a given {@link Piece} in the board
+	 * Gets the position for a given {@link Piece} in the board.
 	 * 
 	 * @param piece
 	 *            the piece to get the position for
 	 * @return the position of the piece, or null if the piece is not in the
 	 *         board
 	 */
-	@Nullable public Position getPositionFor(final Piece piece);
+	@Nullable Position getPositionFor(Piece piece);
 	
 	/**
-	 * Returns all the pieces for this board
+	 * Returns all the pieces for this board.
 	 * 
 	 * @return an unmodifiable collection of all the pieces in the board
 	 */
-	public Collection<P> getAllPieces();
+	Collection<P> getAllPieces();
 	
 }

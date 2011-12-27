@@ -71,7 +71,7 @@ public class SpanishCard extends AbstractCard<SpanishCard.SpanishSuit> {
 	}
 	
 	@Override public String toString() {
-		if (suit.equals(SpanishSuit.Comodin))
+		if (suit == SpanishSuit.Comodin)
 			return "Comodín";
 		
 		final String strRank;

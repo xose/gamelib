@@ -17,20 +17,28 @@
 package es.udc.pfc.gamelib.chess;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+
 import es.udc.pfc.gamelib.board.AbstractBoard;
 import es.udc.pfc.gamelib.board.Position;
 
 /**
- * Represents a chess board
+ * Represents a chess board.
  */
-public abstract class ChessBoard extends AbstractBoard<ChessPiece> {
+public final class ChessBoard extends AbstractBoard<ChessPiece> {
 
 	public static final String CHESSBOARD_STANDARD = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 	public static final String CHESSBOARD_MINI = "rbkqn/ppppp/5/5/PPPPP/NQKBR";
 
-	protected ChessBoard() {
+	private ChessBoard(final int rows, final int cols) {
+		super(rows, cols);
 	}
 
+	/**
+	 * Parses a board from the text representation.
+	 * 
+	 * @param input the text representation of the board
+	 * @return a new board
+	 */
 	public static final ChessBoard fromString(final String input) {
 		final String[] lines = checkNotNull(input).split("/");
 
@@ -40,19 +48,9 @@ public abstract class ChessBoard extends AbstractBoard<ChessPiece> {
 			colsize += Character.isDigit(c) ? Integer.parseInt(Character.toString(c)) : 1;
 		}
 
-		final int rows = lines.length;
-		final int cols = colsize;
-		final ChessBoard board = new ChessBoard() {
-			@Override public final int getNumberOfRows() {
-				return rows;
-			}
+		final ChessBoard board = new ChessBoard(lines.length, colsize);
 
-			@Override public final int getNumberOfColumns() {
-				return cols;
-			}
-		};
-
-		for (int currow = 1; currow <= rows; currow++) {
+		for (int currow = 1; currow <= lines.length; currow++) {
 			int curcol = 1;
 			for (final char c : lines[lines.length - currow].toCharArray()) {
 				if (Character.isDigit(c)) {
@@ -70,5 +68,5 @@ public abstract class ChessBoard extends AbstractBoard<ChessPiece> {
 
 		return board;
 	}
-
+	
 }

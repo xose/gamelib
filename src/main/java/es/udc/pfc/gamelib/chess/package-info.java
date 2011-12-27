@@ -15,7 +15,7 @@
  */
 
 /**
- * Classes used for chess games
+ * Classes used for chess games.
  */
 package es.udc.pfc.gamelib.chess;
 

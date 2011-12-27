@@ -20,19 +20,21 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
 
 import com.google.common.base.Objects;
 
 /**
- * Represents the row and column coordinates of a square in a {@link Board}
+ * Represents the row and column coordinates of a square in a {@link Board}.
  */
+@Immutable
 public final class Position {
 	
 	private final int column;
 	private final int row;
 	
 	/**
-	 * Position constructor
+	 * Position constructor.
 	 * 
 	 * @param column
 	 *            the column for the new Position
@@ -45,9 +47,9 @@ public final class Position {
 	}
 	
 	/**
-	 * Create a new position from a String
+	 * Create a new position from a String.
 	 * 
-	 * Note: This method only supports positions for up to a 8x8 square board
+	 * Note: This method only supports positions for up to a 8x8 square board.
 	 * 
 	 * @param str
 	 *            the string to parse
@@ -60,7 +62,7 @@ public final class Position {
 	}
 	
 	/**
-	 * Create a new position relative to the this one
+	 * Create a new position relative to the this one.
 	 * 
 	 * @param addColumn
 	 *            columns to add/substract to this position
@@ -73,7 +75,7 @@ public final class Position {
 	}
 	
 	/**
-	 * Returns the column for this position
+	 * Returns the column for this position.
 	 * 
 	 * @return the column for this position
 	 */
@@ -82,7 +84,7 @@ public final class Position {
 	}
 	
 	/**
-	 * Returns the row for this position
+	 * Returns the row for this position.
 	 * 
 	 * @return the row for this position
 	 */
@@ -97,7 +99,7 @@ public final class Position {
 			return column == other.column && row == other.row;
 		}
 		
-		return super.equals(obj);
+		return false;
 	}
 	
 	@Override public final int hashCode() {
@@ -108,7 +110,7 @@ public final class Position {
 		if (column > 0 && column <= 8 && row > 0 && row <= 8)
 			return Character.toString((char) ('a' + column - 1)) + row;
 		
-		return "[" + Integer.valueOf(column) + "," + Integer.valueOf(row) + "]";
+		return "[" + column + "," + row + "]";
 	}
 	
 }

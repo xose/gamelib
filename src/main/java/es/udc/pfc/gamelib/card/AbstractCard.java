@@ -64,7 +64,7 @@ public abstract class AbstractCard<S extends Card.Suit> implements Card<S> {
 			return this.suit == other.suit && this.rank == other.rank;
 		}
 		
-		return super.equals(obj);
+		return false;
 	}
 	
 	@Override public abstract String toString();

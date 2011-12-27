@@ -23,19 +23,19 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class PositionTest {
+public class MovementTest {
 	
 	@Test public void testConstructor() {
-		final Position p = new Position(3, 4);
+		final SimpleMovement p = new SimpleMovement(new Position(3, 4), new Position(3, 6));
 		
-		assertEquals(3, p.getColumn());
-		assertEquals(4, p.getRow());
+		assertEquals(new Position(3, 4), p.getFrom());
+		assertEquals(new Position(3, 6), p.getTo());
 	}
 	
 	@Test public void testEquality() {
-		final Position p1 = new Position(3, 6);
-		final Position p2 = new Position(3, 6);
-		final Position p3 = new Position(2, 7);
+		final SimpleMovement p1 = new SimpleMovement(new Position(3, 4), new Position(3, 6));
+		final SimpleMovement p2 = new SimpleMovement(new Position(3, 4), new Position(3, 6));
+		final SimpleMovement p3 = new SimpleMovement(new Position(2, 7), new Position(2, 5));
 		
 		assertNotSame(p1, p2);
 		
@@ -44,31 +44,21 @@ public class PositionTest {
 	}
 	
 	@Test public void testHashCode() {
-		final Position p1 = new Position(3, 6);
-		final Position p2 = new Position(3, 6);
-		final Position p3 = new Position(2, 7);
+		final SimpleMovement p1 = new SimpleMovement(new Position(3, 4), new Position(3, 6));
+		final SimpleMovement p2 = new SimpleMovement(new Position(3, 4), new Position(3, 6));
+		final SimpleMovement p3 = new SimpleMovement(new Position(2, 7), new Position(2, 5));
 		
 		assertNotSame(p1, p2);
-		
+		System.out.println(p1.hashCode());
+		System.out.println(p2.hashCode());
+		System.out.println(p3.hashCode());
 		assertTrue(p1.hashCode() == p2.hashCode());
 		assertFalse(p1.hashCode() == p3.hashCode());
 		assertFalse(p2.hashCode() == p3.hashCode());
 	}
 	
-	@Test public void testFromString() {
-		assertEquals(new Position(3, 5), Position.fromString("c5"));
-	}
-	
 	@Test public void testToString() {
-		assertEquals("e2", new Position(5, 2).toString());
-		assertEquals("[50,20]", new Position(50, 20).toString());
-	}
-	
-	@Test public void testRelative() {
-		final Position origin = new Position(6, 3);
-		
-		assertEquals(new Position(8, 6), origin.relative(2, 3));
-		assertEquals(new Position(3, 1), origin.relative(-3, -2));
+		assertEquals("c4-c6", new SimpleMovement(new Position(3, 4), new Position(3, 6)).toString());
 	}
 	
 }

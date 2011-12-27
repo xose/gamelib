@@ -17,7 +17,7 @@
 package es.udc.pfc.gamelib.chess;
 
 /**
- * Represents colors for pieces and players
+ * Represents colors for pieces and players.
  */
 public enum ChessColor {
 	WHITE, BLACK;
@@ -26,7 +26,7 @@ public enum ChessColor {
 	}
 	
 	/**
-	 * Returns the opposite color
+	 * Returns the opposite color.
 	 * 
 	 * @return the opposite color
 	 */

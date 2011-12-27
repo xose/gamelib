@@ -19,24 +19,24 @@ package es.udc.pfc.gamelib.board;
 import javax.annotation.Nullable;
 
 /**
- * Represents a piece to be used in board games
+ * Represents a piece to be used in board games.
  */
 public interface Piece {
 	
 	/**
-	 * Returns the current {@link Position} of this piece in the {@link Board}
+	 * Returns the current {@link Position} of this piece in the {@link Board}.
 	 * 
 	 * @return the current position
 	 */
-	@Nullable public Position getPosition();
+	@Nullable Position getPosition();
 	
 	/**
-	 * Checks if the given piece is an enemy
+	 * Checks if the given piece is an enemy.
 	 * 
-	 * @param other
+	 * @param piece
 	 *            the piece to check
 	 * @return true if the other piece is an enemy, false otherwise
 	 */
-	public boolean isEnemy(final Piece piece);
+	boolean isEnemy(Piece piece);
 	
 }

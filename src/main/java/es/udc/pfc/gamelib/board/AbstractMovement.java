@@ -18,10 +18,12 @@ package es.udc.pfc.gamelib.board;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.Objects;
+
 /**
- * Abstract movement class
+ * Abstract movement class.
  * 
- * This class implements the common methods for all {@link Movement} subclasses
+ * This class implements the common methods for all {@link Movement} subclasses.
  */
 public abstract class AbstractMovement implements Movement {
 	
@@ -41,7 +43,12 @@ public abstract class AbstractMovement implements Movement {
 		return to;
 	}
 	
-	@Override public String toString() {
-		return from.toString() + "-" + to.toString();
+	@Override public int hashCode() {
+		return Objects.hashCode(from, to);
 	}
+	
+	@Override public abstract boolean equals(Object obj);
+	
+	@Override public abstract String toString();
+	
 }

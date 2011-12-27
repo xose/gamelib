@@ -18,6 +18,7 @@ package es.udc.pfc.gamelib.chess;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -59,6 +60,16 @@ public class ChessBoardTest {
 		assertNull(board.getPieceAt(new Position(3, 3)));
 		
 		assertEquals(ChessKing.class, board.getPieceAt(new Position(3, 1)).getClass());
+	}
+	
+	@Test public void testEquals() {
+		ChessBoard b1 = ChessBoard.fromString(ChessBoard.CHESSBOARD_STANDARD);
+		ChessBoard b2 = ChessBoard.fromString(ChessBoard.CHESSBOARD_STANDARD);
+		ChessBoard b3 = ChessBoard.fromString(ChessBoard.CHESSBOARD_MINI);
+		
+		assertNotSame(b1, b2);
+		
+		assertEquals(b1, b2);
 	}
 	
 	@Test public void testToString() {

@@ -16,29 +16,32 @@
 
 package es.udc.pfc.gamelib.board;
 
-import com.google.common.base.Objects;
+import javax.annotation.concurrent.Immutable;
 
 /**
- * Represents a movement in a {@link Board}
+ * Represents a movement in a {@link Board}.
  */
+@Immutable
 public final class SimpleMovement extends AbstractMovement {
-	
+
 	public SimpleMovement(final Position from, final Position to) {
 		super(from, to);
 	}
-	
-	@Override public final boolean equals(final Object obj) {
+
+	@Override
+	public final boolean equals(final Object obj) {
 		if (obj instanceof SimpleMovement) {
 			final SimpleMovement other = (SimpleMovement) obj;
-			
-			return from == other.from && to == other.to;
+
+			return from.equals(other.from) && to.equals(other.to);
 		}
-		
-		return super.equals(obj);
+
+		return false;
 	}
-	
-	@Override public int hashCode() {
-		return Objects.hashCode(from, to);
+
+	@Override
+	public final String toString() {
+		return from.toString() + "-" + to.toString();
 	}
-	
+
 }

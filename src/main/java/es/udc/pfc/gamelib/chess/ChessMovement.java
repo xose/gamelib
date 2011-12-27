@@ -22,17 +22,21 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.EnumSet;
 
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
+
+import com.google.common.base.Objects;
 
 import es.udc.pfc.gamelib.board.AbstractMovement;
 import es.udc.pfc.gamelib.board.Position;
 import es.udc.pfc.gamelib.chess.pieces.ChessPawn;
 
 /**
- * Represents a chess movement
+ * Represents a chess movement.
  */
+@Immutable
 public final class ChessMovement extends AbstractMovement {
 	
-	protected enum Special {
+	public enum Special {
 		CHECK, MATE, CASTLE_K, CASTLE_Q;
 	}
 	
@@ -40,12 +44,12 @@ public final class ChessMovement extends AbstractMovement {
 	@Nullable private final ChessPiece attackedPiece;
 	private final EnumSet<Special> special;
 	
-	protected ChessMovement(final Position from, final Position to, final ChessPiece sourcePiece, @Nullable final ChessPiece attackedPiece) {
+	protected ChessMovement(final Position from, final Position to, final ChessPiece sourcePiece, @Nullable final ChessPiece attackedPiece, final EnumSet<Special> special) {
 		super(from, to);
 		
 		this.sourcePiece = checkNotNull(sourcePiece);
 		this.attackedPiece = attackedPiece;
-		this.special = EnumSet.noneOf(Special.class);
+		this.special = special;
 		
 		if (attackedPiece != null) {
 			checkArgument(sourcePiece.isEnemy(attackedPiece));
@@ -53,7 +57,7 @@ public final class ChessMovement extends AbstractMovement {
 	}
 	
 	/**
-	 * Returns the piece involved in the movement
+	 * Returns the piece involved in the movement.
 	 * 
 	 * @return the piece for this movement
 	 */
@@ -62,7 +66,7 @@ public final class ChessMovement extends AbstractMovement {
 	}
 	
 	/**
-	 * Returns the attacked piece for this movement
+	 * Returns the attacked piece for this movement.
 	 * 
 	 * @return the attacked piece
 	 */
@@ -70,12 +74,24 @@ public final class ChessMovement extends AbstractMovement {
 		return attackedPiece;
 	}
 	
-	protected final boolean setSpecial(Special special) {
-		return this.special.add(special);
+	public final boolean is(final Special special) {
+		return this.special.contains(special);
 	}
 	
-	public final boolean is(Special special) {
-		return this.special.contains(special);
+	@Override
+	public final int hashCode() {
+		return Objects.hashCode(super.hashCode(), sourcePiece, attackedPiece, special);
+	}
+	
+	@Override
+	public final boolean equals(final Object obj) {
+		if (obj instanceof ChessMovement) {
+			final ChessMovement other = (ChessMovement) obj;
+			
+			return from.equals(other.from) && to.equals(other.to) && sourcePiece.equals(other.sourcePiece) && Objects.equal(attackedPiece, other.attackedPiece) && special.equals(other.special);
+		}
+		
+		return false;
 	}
 	
 	@Override public final String toString() {

@@ -17,57 +17,89 @@
 package es.udc.pfc.gamelib.chess;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+
+import java.util.Random;
 
 import org.junit.Test;
 
-import es.udc.pfc.gamelib.GameTest;
-import es.udc.pfc.gamelib.board.InvalidMovementException;
-import es.udc.pfc.gamelib.board.Position;
+import com.google.common.collect.ImmutableList;
 
-public class ChessGameTest extends GameTest<ChessGame, ChessPlayer> {
+public abstract class ChessGameTest {
 	
-	@Override protected int expectedMinPlayers() {
-		return 2;
+	private static Random random = new Random();
+	protected ChessGame game;
+	
+	protected ChessMovement randomMovement() {
+		final ImmutableList<ChessMovement> possible = game.getPossibleMovements().asList();
+		final ChessMovement randMove = possible.get(random.nextInt(possible.size()));
+		final ChessMovement result = game.movePiece(randMove.getFrom(), randMove.getTo());
+		assertEquals(randMove, result);
+		return result;
 	}
 	
-	@Override protected int expectedMaxPlayers() {
-		return 2;
-	}
-	
-	@Override protected ChessGame getNewGame() {
-		return new ChessGame(ChessBoard.fromString(ChessBoard.CHESSBOARD_MINI), new MiniChessRules());
-	}
-	
-	@Override protected boolean addNewPlayer(final String name) {
-		return game.addPlayer(name);
-	}
-	
-	@Test public void testChessCurrentPlayer() {
-		assertNull(game.getCurrentPlayer());
-		assertTrue(game.addPlayer("white player"));
-		assertNull(game.getCurrentPlayer());
-		assertTrue(game.addPlayer("black player"));
-		assertNotNull(game.getCurrentPlayer());
+	@Test public void testStartStatus() {
+		assertEquals(ChessColor.WHITE, game.getCurrentTurn());
+		assertEquals(0, game.getMovements().size());
+		assertTrue(game.getPossibleMovements().size() > 0);
 		
-		assertEquals("white player", game.getCurrentPlayer().getName());
-		assertEquals(ChessColor.WHITE, game.getCurrentPlayer().getColor());
+		assertFalse(game.isFinished());
+		assertNull(game.getWinner());
 	}
 	
-	@Test public void testMovement() {
-		testAddPlayers();
-		
-		assertEquals(ChessColor.WHITE, game.getCurrentPlayer().getColor());
-		
-		try {
-			game.movePiece(new Position(4, 2), new Position(4, 3));
-			game.movePiece(new Position(3, 5), new Position(3, 4));
-		} catch (final InvalidMovementException e) {
-			fail(e.getMessage());
+	@Test public void testPossibleColor() {
+		assertEquals(ChessColor.WHITE, game.getCurrentTurn());
+		for (final ChessMovement possible : game.getPossibleMovements()) {
+			final ChessPiece piece = game.getBoard().getPieceAt(possible.getFrom());
+			assertNotNull(piece);
+			assertEquals(ChessColor.WHITE, piece.getColor());
 		}
+		
+		randomMovement();
+		
+		assertEquals(ChessColor.BLACK, game.getCurrentTurn());
+		for (final ChessMovement possible : game.getPossibleMovements()) {
+			final ChessPiece piece = game.getBoard().getPieceAt(possible.getFrom());
+			assertNotNull(piece);
+			assertEquals(ChessColor.BLACK, piece.getColor());
+		}
+	}
+	
+	@Test public void testChangeTurn() {
+		assertEquals(ChessColor.WHITE, game.getCurrentTurn());
+		randomMovement();
+		assertEquals(ChessColor.BLACK, game.getCurrentTurn());
+		randomMovement();
+		assertEquals(ChessColor.WHITE, game.getCurrentTurn());
+		randomMovement();
+		assertEquals(ChessColor.BLACK, game.getCurrentTurn());
+	}
+	
+	@Test public void testWinWhite() {
+		game.setWinner(ChessColor.WHITE);
+		
+		assertTrue(game.isFinished());
+		assertEquals(ChessColor.WHITE, game.getWinner());
+		assertEquals(0, game.getPossibleMovements().size());
+	}
+	
+	@Test public void testWinBlack() {
+		game.setWinner(ChessColor.BLACK);
+		
+		assertTrue(game.isFinished());
+		assertEquals(ChessColor.BLACK, game.getWinner());
+		assertEquals(0, game.getPossibleMovements().size());
+	}
+	
+	@Test public void testDraw() {
+		game.draw();
+		
+		assertTrue(game.isFinished());
+		assertNull(game.getWinner());
+		assertEquals(0, game.getPossibleMovements().size());
 	}
 	
 }

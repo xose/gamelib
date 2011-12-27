@@ -17,22 +17,22 @@
 package es.udc.pfc.gamelib.board;
 
 /**
- * Represents a movement in a {@link Board}
+ * Represents a movement in a {@link Board}.
  */
 public interface Movement {
 	
 	/**
-	 * Returns the source of this movement
+	 * Returns the source of this movement.
 	 * 
 	 * @return the source position for this movement
 	 */
-	public Position getFrom();
+	Position getFrom();
 	
 	/**
-	 * Returns the destination of this movement
+	 * Returns the destination of this movement.
 	 * 
 	 * @return the destination position for this movement
 	 */
-	public Position getTo();
+	Position getTo();
 	
 }

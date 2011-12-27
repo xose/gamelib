@@ -24,7 +24,7 @@ import es.udc.pfc.gamelib.chess.ChessColor;
 import es.udc.pfc.gamelib.chess.ChessPiece;
 
 /**
- * Represents a chess Queen
+ * Represents a chess Queen.
  */
 public final class ChessQueen extends ChessPiece {
 	
