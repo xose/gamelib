@@ -28,26 +28,26 @@ import es.udc.pfc.gamelib.chess.ChessPiece;
  */
 public final class ChessPawn extends ChessPiece {
 	
-	public ChessPawn(final ChessBoard board, final ChessColor color) {
-		super(board, color, 'P');
+	public ChessPawn(final ChessColor color) {
+		super(Type.Pawn, color);
 	}
 	
-	@Override public final ImmutableSet<Position> getStandardMoves() {
+	@Override public final ImmutableSet<Position> getStandardMoves(final ChessBoard board) {
 		final ImmutableSet.Builder<Position> moves = ImmutableSet.builder();
 		
 		final int s = getColor() == ChessColor.WHITE ? 1 : -1;
 		
-		final Position f = getPosition().relative(0, s);
+		final Position f = board.getPositionFor(this).relative(0, s);
 		if (board.isValidPosition(f) && !board.isPieceAt(f)) {
 			moves.add(f);
 		}
 		
-		final Position d1 = getPosition().relative(-1, s);
+		final Position d1 = board.getPositionFor(this).relative(-1, s);
 		if (board.isValidPosition(d1) && board.isPieceAt(d1) && isEnemy(board.getPieceAt(d1))) {
 			moves.add(d1);
 		}
 		
-		final Position d2 = getPosition().relative(+1, s);
+		final Position d2 = board.getPositionFor(this).relative(+1, s);
 		if (board.isValidPosition(d2) && board.isPieceAt(d2) && isEnemy(board.getPieceAt(d2))) {
 			moves.add(d2);
 		}

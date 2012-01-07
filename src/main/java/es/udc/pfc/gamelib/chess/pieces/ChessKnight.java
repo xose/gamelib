@@ -30,15 +30,15 @@ public final class ChessKnight extends ChessPiece {
 	
 	private final int[][] knight = { { +2, +1 }, { +2, -1 }, { -2, +1 }, { -2, -1 }, { +1, +2 }, { -1, +2 }, { +1, -2 }, { -1, -2 } };
 	
-	public ChessKnight(final ChessBoard board, final ChessColor color) {
-		super(board, color, 'N');
+	public ChessKnight(final ChessColor color) {
+		super(Type.Knight, color);
 	}
 	
-	@Override public final ImmutableSet<Position> getStandardMoves() {
+	@Override public final ImmutableSet<Position> getStandardMoves(final ChessBoard board) {
 		final ImmutableSet.Builder<Position> moves = ImmutableSet.builder();
 		
 		for (final int[] element : knight) {
-			final Position pos = getPosition().relative(element[0], element[1]);
+			final Position pos = board.getPositionFor(this).relative(element[0], element[1]);
 			
 			if (board.isValidPosition(pos) && (!board.isPieceAt(pos) || isEnemy(board.getPieceAt(pos)))) {
 				moves.add(pos);

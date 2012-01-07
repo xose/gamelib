@@ -28,21 +28,21 @@ import es.udc.pfc.gamelib.chess.ChessPiece;
  */
 public final class ChessQueen extends ChessPiece {
 	
-	public ChessQueen(final ChessBoard board, final ChessColor color) {
-		super(board, color, 'Q');
+	public ChessQueen(final ChessColor color) {
+		super(Type.Queen, color);
 	}
 	
-	@Override public final ImmutableSet<Position> getStandardMoves() {
+	@Override public final ImmutableSet<Position> getStandardMoves(final ChessBoard board) {
 		final ImmutableSet.Builder<Position> moves = ImmutableSet.builder();
 		
-		moves.addAll(getMovesTo(Direction.N));
-		moves.addAll(getMovesTo(Direction.S));
-		moves.addAll(getMovesTo(Direction.E));
-		moves.addAll(getMovesTo(Direction.W));
-		moves.addAll(getMovesTo(Direction.NE));
-		moves.addAll(getMovesTo(Direction.NW));
-		moves.addAll(getMovesTo(Direction.SE));
-		moves.addAll(getMovesTo(Direction.SW));
+		moves.addAll(getMovesTo(board, Direction.N));
+		moves.addAll(getMovesTo(board, Direction.S));
+		moves.addAll(getMovesTo(board, Direction.E));
+		moves.addAll(getMovesTo(board, Direction.W));
+		moves.addAll(getMovesTo(board, Direction.NE));
+		moves.addAll(getMovesTo(board, Direction.NW));
+		moves.addAll(getMovesTo(board, Direction.SE));
+		moves.addAll(getMovesTo(board, Direction.SW));
 		
 		return moves.build();
 	}

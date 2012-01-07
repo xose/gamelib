@@ -28,7 +28,7 @@ public class FrenchCard extends AbstractCard<FrenchCard.FrenchSuit> {
 	/**
 	 * French suits
 	 */
-	public enum FrenchSuit implements Card.Suit {
+	public enum FrenchSuit implements Card.Suit<FrenchSuit> {
 		Clubs, Diamonds, Hearts, Spades, Joker
 	}
 	

@@ -30,15 +30,15 @@ public final class ChessKing extends ChessPiece {
 	
 	private final int[][] king = { { 0, +1 }, { 0, -1 }, { +1, 0 }, { -1, 0 }, { +1, +1 }, { +1, -1 }, { -1, -1 }, { -1, +1 } };
 	
-	public ChessKing(final ChessBoard board, final ChessColor color) {
-		super(board, color, 'K');
+	public ChessKing(final ChessColor color) {
+		super(Type.King, color);
 	}
 	
-	@Override public final ImmutableSet<Position> getStandardMoves() {
+	@Override public final ImmutableSet<Position> getStandardMoves(final ChessBoard board) {
 		final ImmutableSet.Builder<Position> moves = ImmutableSet.builder();
 		
 		for (final int[] element : king) {
-			final Position pos = getPosition().relative(element[0], element[1]);
+			final Position pos = board.getPositionFor(this).relative(element[0], element[1]);
 			
 			if (board.isValidPosition(pos) && (!board.isPieceAt(pos) || isEnemy(board.getPieceAt(pos)))) {
 				moves.add(pos);

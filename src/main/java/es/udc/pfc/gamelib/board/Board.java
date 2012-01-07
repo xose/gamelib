@@ -82,6 +82,15 @@ public interface Board<P extends Piece> {
 	@Nullable P setPieceAt(Position position, @Nullable P piece);
 	
 	/**
+	 * Checks if a given piece is currently on this board.
+	 * 
+	 * @param piece
+	 *            the piece to check for
+	 * @return true if the piece is on this board, false otherwise
+	 */
+	boolean containsPiece(Piece piece);
+	
+	/**
 	 * Gets the position for a given {@link Piece} in the board.
 	 * 
 	 * @param piece

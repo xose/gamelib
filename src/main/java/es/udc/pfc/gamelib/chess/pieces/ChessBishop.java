@@ -30,32 +30,28 @@ public final class ChessBishop extends ChessPiece {
 	
 	private final int[][] special = { { 0, +1 }, { 0, -1 }, { +1, 0 }, { -1, 0 } };
 	
-	public ChessBishop(final ChessBoard board, final ChessColor color) {
-		super(board, color, 'B');
+	public ChessBishop(final ChessColor color) {
+		super(Type.Bishop, color);
 	}
 	
-	protected ChessBishop(final ChessBoard board, final ChessColor color, final char notation) {
-		super(board, color, notation);
-	}
-	
-	@Override public ImmutableSet<Position> getStandardMoves() {
+	@Override public ImmutableSet<Position> getStandardMoves(final ChessBoard board) {
 		final ImmutableSet.Builder<Position> moves = ImmutableSet.builder();
 		
-		moves.addAll(getMovesTo(Direction.NE));
-		moves.addAll(getMovesTo(Direction.NW));
-		moves.addAll(getMovesTo(Direction.SE));
-		moves.addAll(getMovesTo(Direction.SW));
+		moves.addAll(getMovesTo(board, Direction.NE));
+		moves.addAll(getMovesTo(board, Direction.NW));
+		moves.addAll(getMovesTo(board, Direction.SE));
+		moves.addAll(getMovesTo(board, Direction.SW));
 		
 		return moves.build();
 	}
 
-	public final ImmutableSet<Position> getMiniMoves() {
+	public final ImmutableSet<Position> getMiniMoves(final ChessBoard board) {
 		final ImmutableSet.Builder<Position> moves = ImmutableSet.builder();
 		
-		moves.addAll(getStandardMoves());
+		moves.addAll(getStandardMoves(board));
 		
 		for (final int[] element : special) {
-			final Position pos = getPosition().relative(element[0], element[1]);
+			final Position pos = board.getPositionFor(this).relative(element[0], element[1]);
 			
 			if (board.isValidPosition(pos) && !board.isPieceAt(pos)) {
 				moves.add(pos);

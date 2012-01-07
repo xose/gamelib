@@ -40,14 +40,14 @@ public final class MiniChessGame extends AbstractChessGame {
 		super(ChessBoard.fromString(ChessBoard.CHESSBOARD_MINI));
 	}
 	
-	private final ChessMovement checkMovement(final ChessPiece piece, final Position to) {
+	private final ChessMovement checkMovement(final Position from, final Position to) {
 		final EnumSet<ChessMovement.Special> special = EnumSet.noneOf(ChessMovement.Special.class);
 		if (chessBoard.getPieceAt(to) instanceof ChessKing) {
 			special.add(Special.CHECK);
 			special.add(Special.MATE);
 		}
 		
-		return new ChessMovement(piece.getPosition(), to, piece, chessBoard.getPieceAt(to), special);
+		return new ChessMovement(from, to, chessBoard.getPieceAt(from), chessBoard.getPieceAt(to), special);
 	}
 
 	private final ImmutableSet<ChessMovement> getPossibleMovements(final ChessBoard board, final ChessColor turn) {
@@ -57,14 +57,16 @@ public final class MiniChessGame extends AbstractChessGame {
 			if (!currentTurn.equals(piece.getColor()))
 				continue;
 			
+			final Position from = board.getPositionFor(piece);
+			
 			if (piece instanceof ChessBishop) {
-				for (final Position to : ((ChessBishop)piece).getMiniMoves()) {
-					moves.add(checkMovement(piece, to));
+				for (final Position to : ((ChessBishop)piece).getMiniMoves(board)) {
+					moves.add(checkMovement(from, to));
 				}
 			}
 			else {
-				for (final Position to : piece.getStandardMoves()) {
-					moves.add(checkMovement(piece, to));
+				for (final Position to : piece.getStandardMoves(board)) {
+					moves.add(checkMovement(from, to));
 				}
 			}
 		}
@@ -98,7 +100,7 @@ public final class MiniChessGame extends AbstractChessGame {
 			chessBoard.setPieceAt(to, chessBoard.setPieceAt(from, null));
 			
 			if (chessBoard.getPieceAt(to) instanceof ChessPawn && (to.getRow() == 1 || to.getRow() == chessBoard.getNumberOfRows())) {
-				chessBoard.setPieceAt(to, new ChessQueen(chessBoard, currentTurn));
+				chessBoard.setPieceAt(to, new ChessQueen(currentTurn));
 			}
 			
 			currentTurn = currentTurn.other();

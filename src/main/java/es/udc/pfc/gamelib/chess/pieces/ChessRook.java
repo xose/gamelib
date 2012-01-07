@@ -28,17 +28,17 @@ import es.udc.pfc.gamelib.chess.ChessPiece;
  */
 public final class ChessRook extends ChessPiece {
 	
-	public ChessRook(final ChessBoard board, final ChessColor color) {
-		super(board, color, 'R');
+	public ChessRook(final ChessColor color) {
+		super(Type.Rook, color);
 	}
 	
-	@Override public final ImmutableSet<Position> getStandardMoves() {
+	@Override public final ImmutableSet<Position> getStandardMoves(final ChessBoard board) {
 		final ImmutableSet.Builder<Position> moves = ImmutableSet.builder();
 		
-		moves.addAll(getMovesTo(Direction.N));
-		moves.addAll(getMovesTo(Direction.S));
-		moves.addAll(getMovesTo(Direction.E));
-		moves.addAll(getMovesTo(Direction.W));
+		moves.addAll(getMovesTo(board, Direction.N));
+		moves.addAll(getMovesTo(board, Direction.S));
+		moves.addAll(getMovesTo(board, Direction.E));
+		moves.addAll(getMovesTo(board, Direction.W));
 		
 		return moves.build();
 	}

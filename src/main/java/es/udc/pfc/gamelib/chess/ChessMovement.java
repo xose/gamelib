@@ -62,7 +62,7 @@ public final class ChessMovement extends AbstractMovement {
 	 * @return the piece for this movement
 	 */
 	public final ChessPiece getSourcePiece() {
-		return attackedPiece;
+		return sourcePiece;
 	}
 	
 	/**

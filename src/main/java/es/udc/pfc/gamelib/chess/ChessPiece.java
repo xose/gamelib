@@ -16,10 +16,10 @@
 
 package es.udc.pfc.gamelib.chess;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.base.Ascii;
+import javax.annotation.concurrent.Immutable;
+
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableSet;
 
@@ -36,18 +36,47 @@ import es.udc.pfc.gamelib.chess.pieces.ChessRook;
 /**
  * Represents a chess piece.
  */
+@Immutable
 public abstract class ChessPiece extends AbstractPiece {
 	
-	private final ChessColor color;
-	private final char notation;
+	protected static enum Type {
+		King('K'),
+		Queen('Q'),
+		Rook('R'),
+		Bishop('B'),
+		Knight('N'),
+		Pawn('P');
+		
+		private final char notation;
+		
+		private Type(final char notation) {
+			this.notation = notation;
+		}
+		
+		public final char getNotation() {
+			return notation;
+		}
+		
+		public final char getNotationForColor(final ChessColor color) {
+			return color == ChessColor.WHITE ? notation : Character.toLowerCase(notation);
+		}
+		
+		public static final Type fromNotation(final char ch) {
+			final char notation = Character.toUpperCase(ch);
+			for (final Type type : values()) {
+				if (notation == type.getNotation())
+					return type;
+			}
+			return null;
+		}
+	}
 	
-	protected ChessPiece(final ChessBoard board, final ChessColor color, final char notation) {
-		super(board);
-		
+	private final Type type;
+	private final ChessColor color;
+	
+	protected ChessPiece(final Type type, final ChessColor color) {
+		this.type = checkNotNull(type);
 		this.color = checkNotNull(color);
-		this.notation = notation;
-		
-		checkArgument(Ascii.isUpperCase(notation));
 	}
 	
 	/**
@@ -64,7 +93,7 @@ public abstract class ChessPiece extends AbstractPiece {
 	 * 
 	 * @return an unmodifiable set of movements for this piece
 	 */
-	public abstract ImmutableSet<Position> getStandardMoves();
+	public abstract ImmutableSet<Position> getStandardMoves(ChessBoard board);
 	
 	@Override public final boolean isEnemy(final Piece piece) {
 		checkNotNull(piece);
@@ -92,17 +121,17 @@ public abstract class ChessPiece extends AbstractPiece {
 		
 		switch (Character.toUpperCase(input)) {
 		case 'K':
-			return new ChessKing(board, color);
+			return new ChessKing(color);
 		case 'Q':
-			return new ChessQueen(board, color);
+			return new ChessQueen(color);
 		case 'B':
-			return new ChessBishop(board, color);
+			return new ChessBishop(color);
 		case 'N':
-			return new ChessKnight(board, color);
+			return new ChessKnight(color);
 		case 'R':
-			return new ChessRook(board, color);
+			return new ChessRook(color);
 		case 'P':
-			return new ChessPawn(board, color);
+			return new ChessPawn(color);
 		default:
 			throw new IllegalArgumentException("Unknown chess piece " + input);
 		}
@@ -110,7 +139,7 @@ public abstract class ChessPiece extends AbstractPiece {
 	
 	@Override
 	public final int hashCode() {
-		return Objects.hashCode(Character.valueOf(notation), color);
+		return Objects.hashCode(type, color);
 	}
 	
 	@Override
@@ -118,14 +147,14 @@ public abstract class ChessPiece extends AbstractPiece {
 		if (getClass() == obj.getClass()) {
 			final ChessPiece other = (ChessPiece) obj;
 			
-			return notation == other.notation && color == other.color;
+			return type == other.type && color == other.color;
 		}
 		
 		return false;
 	}
 	
 	@Override public final String toString() {
-		return Character.toString(color.equals(ChessColor.WHITE) ? notation : Character.toLowerCase(notation));
+		return String.valueOf(type.getNotationForColor(color));
 	}
 	
 }

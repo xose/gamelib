@@ -16,9 +16,7 @@
 
 package es.udc.pfc.gamelib.chess;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -34,11 +32,6 @@ public abstract class ChessPieceTest {
 	
 	@Before public void setUp() throws Exception {
 		board = ChessBoard.fromString("5/5/5/5/5/5");
-	}
-	
-	@Test public void testGetPosition() {
-		assertEquals(new Position(3, 3), addPiece(new Position(3, 3), ChessColor.BLACK).getPosition());
-		assertNull(addPiece(null, ChessColor.BLACK).getPosition());
 	}
 	
 	@Test public void testEnemy() {

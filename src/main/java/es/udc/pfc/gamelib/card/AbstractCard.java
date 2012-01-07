@@ -20,13 +20,14 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.ComparisonChain;
 
 /**
  * Abstract card class
  * 
  * This class implements the common methods for all {@link Card} subclasses
  */
-public abstract class AbstractCard<S extends Card.Suit> implements Card<S> {
+public abstract class AbstractCard<S extends Card.Suit> implements Card<S>, Comparable<AbstractCard<S>> {
 	
 	protected final S suit;
 	protected final int rank;
@@ -65,6 +66,13 @@ public abstract class AbstractCard<S extends Card.Suit> implements Card<S> {
 		}
 		
 		return false;
+	}
+	
+	@Override public final int compareTo(AbstractCard<S> o) {
+		return ComparisonChain.start()
+				.compare(suit, o.suit)
+				.compare(rank, o.rank)
+				.result();
 	}
 	
 	@Override public abstract String toString();

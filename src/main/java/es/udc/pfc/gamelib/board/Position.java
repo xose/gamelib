@@ -23,12 +23,13 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.ComparisonChain;
 
 /**
  * Represents the row and column coordinates of a square in a {@link Board}.
  */
 @Immutable
-public final class Position {
+public final class Position implements Comparable<Position> {
 	
 	private final int column;
 	private final int row;
@@ -101,6 +102,13 @@ public final class Position {
 		
 		return false;
 	}
+
+	@Override public final int compareTo(final Position o) {
+		return ComparisonChain.start()
+				.compare(column, o.column)
+				.compare(row, o.row)
+				.result();
+	}
 	
 	@Override public final int hashCode() {
 		return Objects.hashCode(Integer.valueOf(column), Integer.valueOf(row));
@@ -108,7 +116,7 @@ public final class Position {
 	
 	@Override public final String toString() {
 		if (column > 0 && column <= 8 && row > 0 && row <= 8)
-			return Character.toString((char) ('a' + column - 1)) + row;
+			return String.valueOf((char) ('a' + column - 1)) + row;
 		
 		return "[" + column + "," + row + "]";
 	}

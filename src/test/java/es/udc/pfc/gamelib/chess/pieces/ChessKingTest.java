@@ -31,7 +31,7 @@ import es.udc.pfc.gamelib.chess.ChessPieceTest;
 public class ChessKingTest extends ChessPieceTest {
 	
 	@Override protected ChessKing addPiece(final Position position, final ChessColor color) {
-		final ChessKing piece = new ChessKing(board, color);
+		final ChessKing piece = new ChessKing(color);
 		if (position != null) {
 			assertNull(board.setPieceAt(position, piece));
 		}
@@ -45,7 +45,7 @@ public class ChessKingTest extends ChessPieceTest {
 	
 	@Test public void testKingNormal() {
 		final ChessKing king = addPiece(new Position(3, 3), ChessColor.WHITE);
-		final Set<Position> moves = king.getStandardMoves();
+		final Set<Position> moves = king.getStandardMoves(board);
 		
 		assertEquals(8, moves.size());
 		assertTrue(moves.contains(new Position(3, 4)));
@@ -60,7 +60,7 @@ public class ChessKingTest extends ChessPieceTest {
 	
 	@Test public void testKingCorners() {
 		ChessKing king = addPiece(new Position(1, 1), ChessColor.WHITE);
-		Set<Position> moves = king.getStandardMoves();
+		Set<Position> moves = king.getStandardMoves(board);
 		
 		assertEquals(3, moves.size());
 		assertTrue(moves.contains(new Position(1, 2)));
@@ -68,7 +68,7 @@ public class ChessKingTest extends ChessPieceTest {
 		assertTrue(moves.contains(new Position(2, 1)));
 		
 		king = addPiece(new Position(5, 6), ChessColor.WHITE);
-		moves = king.getStandardMoves();
+		moves = king.getStandardMoves(board);
 		
 		assertEquals(3, moves.size());
 		assertTrue(moves.contains(new Position(5, 5)));
@@ -79,31 +79,31 @@ public class ChessKingTest extends ChessPieceTest {
 	@Test public void testKingTeamBlocked() {
 		final ChessKing king = addPiece(new Position(3, 3), ChessColor.WHITE);
 		
-		assertNull(board.setPieceAt(new Position(3, 4), new ChessRook(board, ChessColor.WHITE)));
-		assertNull(board.setPieceAt(new Position(4, 4), new ChessRook(board, ChessColor.WHITE)));
-		assertNull(board.setPieceAt(new Position(4, 3), new ChessRook(board, ChessColor.WHITE)));
-		assertNull(board.setPieceAt(new Position(4, 2), new ChessRook(board, ChessColor.WHITE)));
-		assertNull(board.setPieceAt(new Position(3, 2), new ChessRook(board, ChessColor.WHITE)));
-		assertNull(board.setPieceAt(new Position(2, 2), new ChessRook(board, ChessColor.WHITE)));
-		assertNull(board.setPieceAt(new Position(2, 3), new ChessRook(board, ChessColor.WHITE)));
-		assertNull(board.setPieceAt(new Position(2, 4), new ChessRook(board, ChessColor.WHITE)));
+		assertNull(board.setPieceAt(new Position(3, 4), new ChessRook(ChessColor.WHITE)));
+		assertNull(board.setPieceAt(new Position(4, 4), new ChessRook(ChessColor.WHITE)));
+		assertNull(board.setPieceAt(new Position(4, 3), new ChessRook(ChessColor.WHITE)));
+		assertNull(board.setPieceAt(new Position(4, 2), new ChessRook(ChessColor.WHITE)));
+		assertNull(board.setPieceAt(new Position(3, 2), new ChessRook(ChessColor.WHITE)));
+		assertNull(board.setPieceAt(new Position(2, 2), new ChessRook(ChessColor.WHITE)));
+		assertNull(board.setPieceAt(new Position(2, 3), new ChessRook(ChessColor.WHITE)));
+		assertNull(board.setPieceAt(new Position(2, 4), new ChessRook(ChessColor.WHITE)));
 		
-		assertEquals(0, king.getStandardMoves().size());
+		assertEquals(0, king.getStandardMoves(board).size());
 	}
 	
 	@Test public void testKingAttack() {
 		final ChessKing king = addPiece(new Position(3, 3), ChessColor.WHITE);
 		
-		assertNull(board.setPieceAt(new Position(3, 4), new ChessRook(board, ChessColor.BLACK)));
-		assertNull(board.setPieceAt(new Position(4, 4), new ChessRook(board, ChessColor.BLACK)));
-		assertNull(board.setPieceAt(new Position(4, 3), new ChessRook(board, ChessColor.BLACK)));
-		assertNull(board.setPieceAt(new Position(4, 2), new ChessRook(board, ChessColor.BLACK)));
-		assertNull(board.setPieceAt(new Position(3, 2), new ChessRook(board, ChessColor.BLACK)));
-		assertNull(board.setPieceAt(new Position(2, 2), new ChessRook(board, ChessColor.BLACK)));
-		assertNull(board.setPieceAt(new Position(2, 3), new ChessRook(board, ChessColor.BLACK)));
-		assertNull(board.setPieceAt(new Position(2, 4), new ChessRook(board, ChessColor.BLACK)));
+		assertNull(board.setPieceAt(new Position(3, 4), new ChessRook(ChessColor.BLACK)));
+		assertNull(board.setPieceAt(new Position(4, 4), new ChessRook(ChessColor.BLACK)));
+		assertNull(board.setPieceAt(new Position(4, 3), new ChessRook(ChessColor.BLACK)));
+		assertNull(board.setPieceAt(new Position(4, 2), new ChessRook(ChessColor.BLACK)));
+		assertNull(board.setPieceAt(new Position(3, 2), new ChessRook(ChessColor.BLACK)));
+		assertNull(board.setPieceAt(new Position(2, 2), new ChessRook(ChessColor.BLACK)));
+		assertNull(board.setPieceAt(new Position(2, 3), new ChessRook(ChessColor.BLACK)));
+		assertNull(board.setPieceAt(new Position(2, 4), new ChessRook(ChessColor.BLACK)));
 		
-		final Set<Position> moves = king.getStandardMoves();
+		final Set<Position> moves = king.getStandardMoves(board);
 		assertEquals(8, moves.size());
 		assertTrue(moves.contains(new Position(3, 4)));
 		assertTrue(moves.contains(new Position(4, 4)));

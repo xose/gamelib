@@ -21,7 +21,7 @@ package es.udc.pfc.gamelib.card;
  */
 public interface Card<S extends Card.Suit> {
 	
-	public interface Suit {
+	public interface Suit<S extends Suit> extends Comparable<S> {
 		// Empty interface
 	}
 	

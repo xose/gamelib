@@ -31,7 +31,7 @@ import es.udc.pfc.gamelib.chess.ChessPieceTest;
 public class ChessBishopTest extends ChessPieceTest {
 	
 	@Override protected ChessBishop addPiece(final Position position, final ChessColor color) {
-		final ChessBishop piece = new ChessBishop(board, color);
+		final ChessBishop piece = new ChessBishop(color);
 		if (position != null) {
 			assertNull(board.setPieceAt(position, piece));
 		}
@@ -45,7 +45,7 @@ public class ChessBishopTest extends ChessPieceTest {
 	
 	@Test public void testBishopNormal() {
 		final ChessBishop bishop = addPiece(new Position(3, 3), ChessColor.WHITE);
-		final Set<Position> moves = bishop.getStandardMoves();
+		final Set<Position> moves = bishop.getStandardMoves(board);
 		
 		assertEquals(8, moves.size());
 		assertTrue(moves.contains(new Position(4, 4)));
@@ -61,12 +61,12 @@ public class ChessBishopTest extends ChessPieceTest {
 	@Test public void testBishopTeamBlocked() {
 		final ChessBishop bishop = addPiece(new Position(3, 3), ChessColor.WHITE);
 		
-		assertNull(board.setPieceAt(new Position(5, 5), new ChessRook(board, ChessColor.WHITE)));
-		assertNull(board.setPieceAt(new Position(4, 2), new ChessRook(board, ChessColor.WHITE)));
-		assertNull(board.setPieceAt(new Position(1, 1), new ChessRook(board, ChessColor.WHITE)));
-		assertNull(board.setPieceAt(new Position(1, 5), new ChessRook(board, ChessColor.WHITE)));
+		assertNull(board.setPieceAt(new Position(5, 5), new ChessRook(ChessColor.WHITE)));
+		assertNull(board.setPieceAt(new Position(4, 2), new ChessRook(ChessColor.WHITE)));
+		assertNull(board.setPieceAt(new Position(1, 1), new ChessRook(ChessColor.WHITE)));
+		assertNull(board.setPieceAt(new Position(1, 5), new ChessRook(ChessColor.WHITE)));
 		
-		final Set<Position> moves = bishop.getStandardMoves();
+		final Set<Position> moves = bishop.getStandardMoves(board);
 		assertEquals(3, moves.size());
 		assertTrue(moves.contains(new Position(4, 4)));
 		assertTrue(moves.contains(new Position(2, 2)));
@@ -76,12 +76,12 @@ public class ChessBishopTest extends ChessPieceTest {
 	@Test public void testBishopAttack() {
 		final ChessBishop bishop = addPiece(new Position(3, 3), ChessColor.WHITE);
 		
-		assertNull(board.setPieceAt(new Position(5, 5), new ChessRook(board, ChessColor.BLACK)));
-		assertNull(board.setPieceAt(new Position(4, 2), new ChessRook(board, ChessColor.BLACK)));
-		assertNull(board.setPieceAt(new Position(1, 1), new ChessRook(board, ChessColor.BLACK)));
-		assertNull(board.setPieceAt(new Position(1, 5), new ChessRook(board, ChessColor.BLACK)));
+		assertNull(board.setPieceAt(new Position(5, 5), new ChessRook(ChessColor.BLACK)));
+		assertNull(board.setPieceAt(new Position(4, 2), new ChessRook(ChessColor.BLACK)));
+		assertNull(board.setPieceAt(new Position(1, 1), new ChessRook(ChessColor.BLACK)));
+		assertNull(board.setPieceAt(new Position(1, 5), new ChessRook(ChessColor.BLACK)));
 		
-		final Set<Position> moves = bishop.getStandardMoves();
+		final Set<Position> moves = bishop.getStandardMoves(board);
 		assertEquals(7, moves.size());
 		assertTrue(moves.contains(new Position(4, 4)));
 		assertTrue(moves.contains(new Position(5, 5)));

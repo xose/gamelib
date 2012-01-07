@@ -18,7 +18,7 @@ package es.udc.pfc.gamelib.board;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
 
 import com.google.common.collect.ImmutableSet;
 
@@ -27,9 +27,8 @@ import com.google.common.collect.ImmutableSet;
  * 
  * This class implements the common methods for all {@link Piece} subclasses.
  */
+@Immutable
 public abstract class AbstractPiece implements Piece {
-	
-	protected final Board<?> board;
 	
 	/**
 	 * Represents the directions that most pieces use to move.
@@ -69,27 +68,22 @@ public abstract class AbstractPiece implements Piece {
 		}
 	}
 	
-	protected AbstractPiece(final Board<?> board) {
-		this.board = checkNotNull(board);
-	}
-	
-	@Override @Nullable public final Position getPosition() {
-		return board.getPositionFor(this);
-	}
-	
 	/**
 	 * Returns all the possible moves to a given direction.
 	 * 
+	 * @param board
+	 *            the board this piece is on.
 	 * @param dir
 	 *            the direction to get the piece moves
 	 * @return a set of positions the piece can move to
 	 */
-	protected final ImmutableSet<Position> getMovesTo(final Direction dir) {
+	protected final ImmutableSet<Position> getMovesTo(final Board<?> board, final Direction dir) {
+		checkNotNull(board);
 		checkNotNull(dir);
 		
 		final ImmutableSet.Builder<Position> moves = ImmutableSet.builder();
 		
-		Position pos = getPosition().relative(dir.i(), dir.j());
+		Position pos = board.getPositionFor(this).relative(dir.i(), dir.j());
 		while (board.isValidPosition(pos) && (!board.isPieceAt(pos) || isEnemy(board.getPieceAt(pos)))) {
 			moves.add(pos);
 			

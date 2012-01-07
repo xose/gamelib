@@ -98,10 +98,12 @@ public abstract class AbstractBoard<P extends Piece> implements Board<P> {
 		return pieces.put(position, piece);
 	}
 	
+	@Override @Nullable public final boolean containsPiece(final Piece piece) {
+		return pieces.containsValue(checkNotNull(piece));
+	}
+	
 	@Override @Nullable public final Position getPositionFor(final Piece piece) {
-		checkNotNull(piece);
-		
-		if (!pieces.containsValue(piece))
+		if (!containsPiece(piece))
 			return null;
 		
 		for (final Map.Entry<Position, P> entry : pieces.entrySet()) {

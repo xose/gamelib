@@ -28,7 +28,7 @@ public class SpanishCard extends AbstractCard<SpanishCard.SpanishSuit> {
 	/**
 	 * Spanish suits
 	 */
-	public enum SpanishSuit implements Card.Suit {
+	public enum SpanishSuit implements Card.Suit<SpanishSuit> {
 		Oros, Copas, Espadas, Bastos, Comodin
 	}
 	
