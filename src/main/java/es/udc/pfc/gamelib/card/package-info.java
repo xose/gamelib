@@ -17,5 +17,7 @@
 /**
  * Support classes for card games
  */
+@ParametersAreNonnullByDefault
 package es.udc.pfc.gamelib.card;
 
+import javax.annotation.ParametersAreNonnullByDefault;

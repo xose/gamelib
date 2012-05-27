@@ -17,5 +17,7 @@
 /**
  * Classes used for chess games.
  */
+@ParametersAreNonnullByDefault
 package es.udc.pfc.gamelib.chess;
 
+import javax.annotation.ParametersAreNonnullByDefault;

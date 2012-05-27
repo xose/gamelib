@@ -18,6 +18,7 @@ package es.udc.pfc.gamelib.board;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
 import com.google.common.collect.ImmutableSet;
@@ -99,7 +100,7 @@ public abstract class AbstractPiece implements Piece {
 	
 	@Override public abstract int hashCode();
 	
-	@Override public abstract boolean equals(Object obj);
+	@Override public abstract boolean equals(@Nullable Object obj);
 	
 	@Override public abstract String toString();
 	

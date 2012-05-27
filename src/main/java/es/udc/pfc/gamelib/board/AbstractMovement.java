@@ -18,6 +18,8 @@ package es.udc.pfc.gamelib.board;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import javax.annotation.Nullable;
+
 import com.google.common.base.Objects;
 
 /**
@@ -47,7 +49,7 @@ public abstract class AbstractMovement implements Movement {
 		return Objects.hashCode(from, to);
 	}
 	
-	@Override public abstract boolean equals(Object obj);
+	@Override public abstract boolean equals(@Nullable Object obj);
 	
 	@Override public abstract String toString();
 	

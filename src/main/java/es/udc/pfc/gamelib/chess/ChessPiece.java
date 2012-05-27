@@ -18,6 +18,7 @@ package es.udc.pfc.gamelib.chess;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
 import com.google.common.base.Objects;
@@ -61,7 +62,7 @@ public abstract class ChessPiece extends AbstractPiece {
 			return color == ChessColor.WHITE ? notation : Character.toLowerCase(notation);
 		}
 		
-		public static final Type fromNotation(final char ch) {
+		@Nullable public static final Type fromNotation(final char ch) {
 			final char notation = Character.toUpperCase(ch);
 			for (final Type type : values()) {
 				if (notation == type.getNotation())
@@ -143,7 +144,10 @@ public abstract class ChessPiece extends AbstractPiece {
 	}
 	
 	@Override
-	public final boolean equals(final Object obj) {
+	public final boolean equals(@Nullable final Object obj) {
+		if (obj == null)
+			return false;
+		
 		if (getClass() == obj.getClass()) {
 			final ChessPiece other = (ChessPiece) obj;
 			

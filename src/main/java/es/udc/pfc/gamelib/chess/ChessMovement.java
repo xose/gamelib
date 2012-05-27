@@ -84,7 +84,7 @@ public final class ChessMovement extends AbstractMovement {
 	}
 	
 	@Override
-	public final boolean equals(final Object obj) {
+	public final boolean equals(@Nullable final Object obj) {
 		if (obj instanceof ChessMovement) {
 			final ChessMovement other = (ChessMovement) obj;
 			

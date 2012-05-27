@@ -64,6 +64,7 @@ public abstract class AbstractChessGame implements ChessGame {
 	}
 	
 	@Override
+	@Nullable
 	public final ChessColor getWinner() {
 		if (winner == null || winner == Winner.DRAW)
 			return null;

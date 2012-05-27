@@ -19,6 +19,8 @@ package es.udc.pfc.gamelib.card;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import javax.annotation.Nullable;
+
 import com.google.common.base.Objects;
 import com.google.common.collect.ComparisonChain;
 
@@ -27,7 +29,7 @@ import com.google.common.collect.ComparisonChain;
  * 
  * This class implements the common methods for all {@link Card} subclasses
  */
-public abstract class AbstractCard<S extends Card.Suit> implements Card<S>, Comparable<AbstractCard<S>> {
+public abstract class AbstractCard<S extends Card.Suit<S>> implements Card<S>, Comparable<AbstractCard<S>> {
 	
 	protected final S suit;
 	protected final int rank;
@@ -58,7 +60,10 @@ public abstract class AbstractCard<S extends Card.Suit> implements Card<S>, Comp
 		return Objects.hashCode(suit, Integer.valueOf(rank));
 	}
 	
-	@Override public boolean equals(final Object obj) {
+	@Override public boolean equals(@Nullable final Object obj) {
+		if (obj == null)
+			return false;
+		
 		if (getClass() == obj.getClass()) {
 			final AbstractCard<?> other = (AbstractCard<?>) obj;
 			
@@ -68,7 +73,7 @@ public abstract class AbstractCard<S extends Card.Suit> implements Card<S>, Comp
 		return false;
 	}
 	
-	@Override public final int compareTo(AbstractCard<S> o) {
+	@Override public final int compareTo(@Nullable AbstractCard<S> o) {
 		return ComparisonChain.start()
 				.compare(suit, o.suit)
 				.compare(rank, o.rank)

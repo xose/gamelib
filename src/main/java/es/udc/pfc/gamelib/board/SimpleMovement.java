@@ -16,6 +16,7 @@
 
 package es.udc.pfc.gamelib.board;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
 /**
@@ -29,7 +30,7 @@ public final class SimpleMovement extends AbstractMovement {
 	}
 
 	@Override
-	public final boolean equals(final Object obj) {
+	public final boolean equals(@Nullable final Object obj) {
 		if (obj instanceof SimpleMovement) {
 			final SimpleMovement other = (SimpleMovement) obj;
 

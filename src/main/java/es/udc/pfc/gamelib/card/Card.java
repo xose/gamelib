@@ -19,9 +19,9 @@ package es.udc.pfc.gamelib.card;
 /**
  * Represents a playing card
  */
-public interface Card<S extends Card.Suit> {
+public interface Card<S extends Card.Suit<S>> {
 	
-	public interface Suit<S extends Suit> extends Comparable<S> {
+	public interface Suit<S extends Suit<S>> extends Comparable<S> {
 		// Empty interface
 	}
 	

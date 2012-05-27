@@ -95,10 +95,9 @@ public interface Board<P extends Piece> {
 	 * 
 	 * @param piece
 	 *            the piece to get the position for
-	 * @return the position of the piece, or null if the piece is not in the
-	 *         board
+	 * @return the position of the piece
 	 */
-	@Nullable Position getPositionFor(Piece piece);
+	Position getPositionFor(Piece piece);
 	
 	/**
 	 * Returns all the pieces for this board.

@@ -17,5 +17,7 @@
 /**
  * Support classes for board games
  */
+@ParametersAreNonnullByDefault
 package es.udc.pfc.gamelib.board;
 
+import javax.annotation.ParametersAreNonnullByDefault;

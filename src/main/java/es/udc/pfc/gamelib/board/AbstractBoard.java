@@ -98,20 +98,19 @@ public abstract class AbstractBoard<P extends Piece> implements Board<P> {
 		return pieces.put(position, piece);
 	}
 	
-	@Override @Nullable public final boolean containsPiece(final Piece piece) {
+	@Override public final boolean containsPiece(final Piece piece) {
 		return pieces.containsValue(checkNotNull(piece));
 	}
 	
-	@Override @Nullable public final Position getPositionFor(final Piece piece) {
-		if (!containsPiece(piece))
-			return null;
+	@Override public final Position getPositionFor(final Piece piece) {
+		checkNotNull(piece);
 		
 		for (final Map.Entry<Position, P> entry : pieces.entrySet()) {
 			if (piece == entry.getValue())
 				return entry.getKey();
 		}
 		
-		return null;
+		throw new IllegalArgumentException("Piece is not contained on this board");
 	}
 	
 	@Override public final Collection<P> getAllPieces() {
@@ -124,7 +123,7 @@ public abstract class AbstractBoard<P extends Piece> implements Board<P> {
 	}
 	
 	@Override
-	public boolean equals(final Object obj) {
+	public boolean equals(@Nullable final Object obj) {
 		if (obj instanceof AbstractBoard) {
 			final AbstractBoard<?> other = (AbstractBoard<?>) obj;
 			

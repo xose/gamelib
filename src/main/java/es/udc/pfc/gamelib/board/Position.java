@@ -93,7 +93,7 @@ public final class Position implements Comparable<Position> {
 		return row;
 	}
 	
-	@Override public final boolean equals(final Object obj) {
+	@Override public final boolean equals(@Nullable final Object obj) {
 		if (obj instanceof Position) {
 			final Position other = (Position) obj;
 			
@@ -103,7 +103,7 @@ public final class Position implements Comparable<Position> {
 		return false;
 	}
 
-	@Override public final int compareTo(final Position o) {
+	@Override public final int compareTo(@Nullable final Position o) {
 		return ComparisonChain.start()
 				.compare(column, o.column)
 				.compare(row, o.row)

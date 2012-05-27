@@ -17,5 +17,7 @@
 /**
  * Contains all the chess piece classes.
  */
+@ParametersAreNonnullByDefault
 package es.udc.pfc.gamelib.chess.pieces;
 
+import javax.annotation.ParametersAreNonnullByDefault;
